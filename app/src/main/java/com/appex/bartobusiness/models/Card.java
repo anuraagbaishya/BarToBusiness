@@ -1,4 +1,4 @@
-package com.appex.bartobusiness.Model;
+package com.appex.bartobusiness.models;
 
 import com.google.firebase.database.IgnoreExtraProperties;
 

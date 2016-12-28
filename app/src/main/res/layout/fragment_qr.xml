@@ -1,13 +1,16 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.appex.bartobusiness.Fragment.QRFragment">
+    android:orientation="vertical"
+    tools:context="com.appex.bartobusiness.fragments.QRFragment">
 
     <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="350dp"
+        android:layout_height="350dp"
         android:contentDescription="@string/name"
+        android:layout_gravity="center"
+        android:layout_margin="5dp"
         android:id="@+id/qr_image_view"/>
 
-</FrameLayout>
+</LinearLayout>

@@ -1,100 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/activity_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/main_activity_scroll_view"
-    tools:context="com.appex.bartobusiness.Activity.MainActivity">
-    <LinearLayout
+    tools:context="com.appex.bartobusiness.activities.MainActivity">
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/card_recycler_view"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_margin="10dp"
-        tools:context="com.appex.bartobusiness.Activity.MainActivity">
+        android:layout_height="match_parent"
+        android:scrollbars="vertical"/>
 
-        <EditText
-            android:layout_width="fill_parent"
+    <com.github.clans.fab.FloatingActionMenu
+        android:id="@+id/fab_menu"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:padding="15dp"
+        app:menu_icon="@drawable/ic_menu_l"
+        app:menu_labels_ellipsize="end"
+        app:menu_labels_singleLine="true"
+        app:menu_backgroundColor="#ccffffff"
+        app:menu_fab_label="Menu label">
+
+        <com.github.clans.fab.FloatingActionButton
+            android:id="@+id/fab_add_card"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:inputType="textCapWords"
-            android:id="@+id/name_edit_text"
-            android:hint="@string/name"
-            android:textSize="15sp"
-            android:layout_margin="5dp" />
+            android:src="@drawable/ic_add"
+            app:fab_size="mini"
+            app:fab_label="Add Card" />
 
-        <EditText
-            android:layout_width="fill_parent"
+        <com.github.clans.fab.FloatingActionButton
+            android:id="@+id/fab_scan_qr"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:inputType="textCapWords"
-            android:id="@+id/position_edit_text"
-            android:layout_margin="5dp"
-            android:textSize="15sp"
-            android:hint="@string/position"/>
+            android:src="@drawable/ic_camera"
+            android:padding="25dp"
+            app:fab_size="mini"
+            app:fab_label="Scan QR" />
 
-        <EditText
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:inputType="textCapWords"
-            android:id="@+id/company_edit_text"
-            android:layout_margin="5dp"
-            android:textSize="15sp"
-            android:hint="@string/company"/>
+    </com.github.clans.fab.FloatingActionMenu>
 
-        <EditText
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:inputType="phone"
-            android:layout_margin="5dp"
-            android:id="@+id/phone_edit_text"
-            android:textSize="15sp"
-            android:hint="@string/phone"/>
-
-        <EditText
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:inputType="textEmailAddress"
-            android:id="@+id/email_edit_text"
-            android:layout_margin="5dp"
-            android:textSize="15sp"
-            android:hint="@string/email"/>
-
-        <EditText
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:inputType="textPostalAddress"
-            android:id="@+id/add_line1_edit_text"
-            android:layout_margin="5dp"
-            android:textSize="15sp"
-            android:hint="@string/add_line1"/>
-
-        <EditText
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:inputType="textPostalAddress"
-            android:id="@+id/add_line2_edit_text"
-            android:layout_margin="5dp"
-            android:textSize="15sp"
-            android:hint="@string/add_line2"/>
-
-        <EditText
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:inputType="textPostalAddress"
-            android:id="@+id/add_line3_edit_text"
-            android:layout_margin="5dp"
-            android:textSize="15sp"
-            android:hint="@string/add_line3"/>
-
-        <Button
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:textSize="15sp"
-            android:text="@string/add"
-            android:textColor="@android:color/white"
-            android:background="@color/colorPrimary"
-            android:id="@+id/button"
-            android:layout_margin="5dp"/>
-
-
-    </LinearLayout>
-</ScrollView>
+</android.support.design.widget.CoordinatorLayout>
