@@ -3,16 +3,28 @@ package com.appex.bartobusiness.activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Toast;
 
 import com.appex.bartobusiness.R;
+import com.appex.bartobusiness.adapters.CardAdapter;
+import com.appex.bartobusiness.models.RealmCard;
 import com.github.clans.fab.FloatingActionButton;
 import com.github.clans.fab.FloatingActionMenu;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 
+import java.util.ArrayList;
+
+import io.realm.Realm;
+import io.realm.RealmResults;
+
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
+
+    CardAdapter cardAdapter;
+    RecyclerView recyclerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,16 +32,29 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_main);
 
         FloatingActionMenu fabMenu = (FloatingActionMenu) findViewById(R.id.fab_menu);
-
         FloatingActionButton fabAddCard = (FloatingActionButton) findViewById(R.id.fab_add_card);
         FloatingActionButton fabScanQR = (FloatingActionButton) findViewById(R.id.fab_scan_qr);
-        
+        FloatingActionButton fabMyCards = (FloatingActionButton) findViewById(R.id.fab_mycards);
+        recyclerView = (RecyclerView) findViewById(R.id.card_recycler_view);
+
+        Realm.init(getApplicationContext());
+        Realm realm = Realm.getDefaultInstance();
+        RealmResults<RealmCard> realmResults = realm.where(RealmCard.class).findAll();
+        ArrayList<RealmCard> realmCards = new ArrayList<>(realmResults.subList(0, realmResults.size()));
+
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext());
+        cardAdapter = new CardAdapter(realmCards, MainActivity.this);
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(linearLayoutManager);
+        recyclerView.setAdapter(cardAdapter);
+
         fabMenu.setClosedOnTouchOutside(true);
         fabMenu.hideMenuButton(false);
         fabMenu.showMenuButton(true);
 
         fabAddCard.setOnClickListener(this);
         fabScanQR.setOnClickListener(this);
+        fabMyCards.setOnClickListener(this);
     }
 
     @Override
@@ -43,7 +68,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             case R.id.fab_scan_qr:
                 IntentIntegrator intentIntegrator = new IntentIntegrator(this);
+                intentIntegrator.setDesiredBarcodeFormats(IntentIntegrator.QR_CODE_TYPES);
+                intentIntegrator.setBarcodeImageEnabled(true);
+                intentIntegrator.setOrientationLocked(true);
+                intentIntegrator.setBeepEnabled(false);
                 intentIntegrator.initiateScan();
+                break;
+
+            case R.id.fab_mycards:
+                startActivity(new Intent(getApplicationContext(), MyCardsActivity.class));
                 break;
         }
     }
@@ -56,8 +89,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 Toast.makeText(this, "Result Not Found", Toast.LENGTH_LONG).show();
             } else {
                 //if qr contains data
-                Toast.makeText(getApplicationContext(), result.getContents(), Toast.LENGTH_SHORT).show();
-                startActivity(new Intent(getApplicationContext(), NewCardActivity.class));
+                String key = result.getContents();
+                startActivity(new Intent(getApplicationContext(), NewCardActivity.class).putExtra("Key",key));
             }
         } else {
             super.onActivityResult(requestCode, resultCode, data);

@@ -31,7 +31,7 @@ public class QRFragment extends DialogFragment {
     Bitmap bitmap;
     ByteArrayOutputStream outputStream;
     File file;
-    String key;
+    String key, name;
     FileOutputStream fileOutputStream;
     private static final int WRITE_PERMISSION = 1;
 
@@ -44,6 +44,8 @@ public class QRFragment extends DialogFragment {
         outputStream = new ByteArrayOutputStream();
 
         key = getArguments().getString("Key");
+        name = getArguments().getString("Name");
+        name = name.replaceAll("\\s+","");
         try {
 
             bitmap = textToImageEncode(key);
@@ -112,7 +114,7 @@ public class QRFragment extends DialogFragment {
             success = folder.mkdir();
 
         if (success) {
-            file = new File(Environment.getExternalStorageDirectory() + "/Pictures/B2B/" + key + ".PNG");
+            file = new File(Environment.getExternalStorageDirectory() + "/Pictures/B2B/" + key.substring(0,5) + name + ".PNG");
 
             try {
                 file.createNewFile();

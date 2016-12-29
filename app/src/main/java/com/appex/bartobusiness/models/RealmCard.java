@@ -1,9 +1,12 @@
 package com.appex.bartobusiness.models;
 
-import com.google.firebase.database.IgnoreExtraProperties;
+import io.realm.RealmObject;
 
-@IgnoreExtraProperties
-public class Card{
+/**
+ * Created by anuraag on 12/29/16.
+ */
+
+public class RealmCard extends RealmObject {
 
     private String name;
     private String position;
@@ -13,21 +16,6 @@ public class Card{
     private String addLine1;
     private String addLine2;
     private String addLine3;
-
-    public Card(){
-        
-    }
-
-    public Card(String name, String position, String company, String phone, String email, String addLine1, String addLine2, String addLine3) {
-        this.name = name;
-        this.position = position;
-        this.company = company;
-        this.phone = phone;
-        this.email = email;
-        this.addLine1 = addLine1;
-        this.addLine2 = addLine2;
-        this.addLine3 = addLine3;
-    }
 
     public String getName() {
         return name;
@@ -92,4 +80,5 @@ public class Card{
     public void setAddLine3(String addLine3) {
         this.addLine3 = addLine3;
     }
+
 }

@@ -20,19 +20,27 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
         android:padding="15dp"
-        app:menu_icon="@drawable/ic_menu_l"
+        app:menu_icon="@drawable/ic_add_white_36dp"
         app:menu_labels_ellipsize="end"
         app:menu_labels_singleLine="true"
-        app:menu_backgroundColor="#ccffffff"
-        app:menu_fab_label="Menu label">
+        app:menu_backgroundColor="#ccffffff">
+
+        <com.github.clans.fab.FloatingActionButton
+            android:id="@+id/fab_mycards"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_credit_card_white_24dp"
+            android:padding="25dp"
+            app:fab_size="mini"
+            app:fab_label="My Cards" />
 
         <com.github.clans.fab.FloatingActionButton
             android:id="@+id/fab_add_card"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_add"
+            android:src="@drawable/ic_create_white_24dp"
             app:fab_size="mini"
-            app:fab_label="Add Card" />
+            app:fab_label="New Card" />
 
         <com.github.clans.fab.FloatingActionButton
             android:id="@+id/fab_scan_qr"
@@ -42,6 +50,7 @@
             android:padding="25dp"
             app:fab_size="mini"
             app:fab_label="Scan QR" />
+
 
     </com.github.clans.fab.FloatingActionMenu>
 

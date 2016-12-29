@@ -70,6 +70,7 @@ public class AddActivity extends AppCompatActivity {
 
                     Bundle bundle = new Bundle();
                     bundle.putString("Key", key);
+                    bundle.putString("Name", nameEditText.getText().toString());
                     QRFragment qrFragment = new QRFragment();
                     qrFragment.setArguments(bundle);
                     qrFragment.show(getSupportFragmentManager(), "qr fragment");

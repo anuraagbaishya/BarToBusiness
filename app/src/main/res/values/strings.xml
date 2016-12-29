@@ -10,5 +10,6 @@
     <string name="add_line3">Address Line 3</string>
     <string name="add">Add</string>
     <string name="save">Save</string>
+    <string name="view_cards">View Cards</string>
 
 </resources>
