@@ -5,7 +5,9 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.appex.bartobusiness.R;
@@ -35,12 +37,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         FloatingActionButton fabAddCard = (FloatingActionButton) findViewById(R.id.fab_add_card);
         FloatingActionButton fabScanQR = (FloatingActionButton) findViewById(R.id.fab_scan_qr);
         FloatingActionButton fabMyCards = (FloatingActionButton) findViewById(R.id.fab_mycards);
+        TextView noCardTextView = (TextView) findViewById(R.id.no_card_text_view);
         recyclerView = (RecyclerView) findViewById(R.id.card_recycler_view);
 
         Realm.init(getApplicationContext());
         Realm realm = Realm.getDefaultInstance();
         RealmResults<RealmCard> realmResults = realm.where(RealmCard.class).findAll();
         ArrayList<RealmCard> realmCards = new ArrayList<>(realmResults.subList(0, realmResults.size()));
+        if(realmCards.size() == 0){
+
+            noCardTextView.setVisibility(View.VISIBLE);
+            recyclerView.setVisibility(View.GONE);
+        }
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext());
         cardAdapter = new CardAdapter(realmCards, MainActivity.this);
@@ -55,6 +63,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         fabAddCard.setOnClickListener(this);
         fabScanQR.setOnClickListener(this);
         fabMyCards.setOnClickListener(this);
+
+        Log.d("ID", getIntent().getStringExtra("userid"));
+        Log.d("Name", getIntent().getStringExtra("name"));
     }
 
     @Override
