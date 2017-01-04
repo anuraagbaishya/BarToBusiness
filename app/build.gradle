@@ -4,7 +4,7 @@ android {
     compileSdkVersion 24
     buildToolsVersion "24.0.3"
     defaultConfig {
-        applicationId "com.appex.bartobusiness"
+        applicationId "com.appex.barcards"
         minSdkVersion 15
         targetSdkVersion 24
         versionCode 1
@@ -29,6 +29,7 @@ dependencies {
     compile 'com.github.clans:fab:1.6.4'
     compile 'com.journeyapps:zxing-android-embedded:3.4.0'
     compile 'com.facebook.android:facebook-android-sdk:4.12.0'
+    compile 'com.squareup.picasso:picasso:2.5.2'
 }
 apply plugin: 'com.google.gms.google-services'
 apply plugin: 'realm-android'

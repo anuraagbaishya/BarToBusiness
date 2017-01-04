@@ -1,4 +1,4 @@
-package com.appex.bartobusiness.activities;
+package com.appex.barcards.activities;
 
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -12,9 +12,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ScrollView;
 
-import com.appex.bartobusiness.R;
-import com.appex.bartobusiness.fragments.QRFragment;
-import com.appex.bartobusiness.models.Card;
+import com.appex.barcards.R;
+import com.appex.barcards.fragments.QRFragment;
+import com.appex.barcards.models.Card;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 

@@ -1,4 +1,4 @@
-package com.appex.bartobusiness.adapters;
+package com.appex.barcards.adapters;
 
 import android.content.Context;
 import android.support.v7.widget.CardView;
@@ -8,8 +8,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.appex.bartobusiness.R;
-import com.appex.bartobusiness.models.RealmCard;
+import com.appex.barcards.R;
+import com.appex.barcards.models.RealmCard;
 
 import java.util.List;
 

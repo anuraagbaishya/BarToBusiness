@@ -1,4 +1,4 @@
-package com.appex.bartobusiness.application;
+package com.appex.barcards.application;
 
 import android.app.Application;
 

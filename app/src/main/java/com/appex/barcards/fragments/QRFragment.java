@@ -1,4 +1,4 @@
-package com.appex.bartobusiness.fragments;
+package com.appex.barcards.fragments;
 
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -14,7 +14,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import com.appex.bartobusiness.R;
+import com.appex.barcards.R;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.MultiFormatWriter;
 import com.google.zxing.WriterException;

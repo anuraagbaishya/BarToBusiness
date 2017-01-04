@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@drawable/nav_back"
+    android:orientation="vertical"
+    android:paddingBottom="20dp"
+    android:paddingTop="20dp">
+
+    <ImageView
+        android:id="@+id/nav_profile_image_view"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_marginLeft="15dp"
+        android:src="@drawable/ic_camera" />
+
+    <TextView
+        android:id="@+id/name_nav_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="15dp"
+        android:textColor="@color/white"
+        android:textSize="17sp"
+        android:textStyle="bold"
+        tools:text="Anuraag" />
+
+    <TextView
+        android:id="@+id/email_nav_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+
+        android:textColor="@color/white"
+        android:textSize="15sp"
+        tools:text="blabla@bla.com"/>
+</LinearLayout>

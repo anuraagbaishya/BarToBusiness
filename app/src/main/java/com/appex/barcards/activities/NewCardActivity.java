@@ -1,4 +1,4 @@
-package com.appex.bartobusiness.activities;
+package com.appex.barcards.activities;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -11,9 +11,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.appex.bartobusiness.R;
-import com.appex.bartobusiness.models.Card;
-import com.appex.bartobusiness.models.RealmCard;
+import com.appex.barcards.R;
+import com.appex.barcards.models.Card;
+import com.appex.barcards.models.RealmCard;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;

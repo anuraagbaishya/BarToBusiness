@@ -8,9 +8,9 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:829003039128:android:aaea37dc6cc90290",
+        "mobilesdk_app_id": "1:829003039128:android:8266e04dc00c9e78",
         "android_client_info": {
-          "package_name": "com.appex.bartobusiness"
+          "package_name": "com.appex.barcards"
         }
       },
       "oauth_client": [

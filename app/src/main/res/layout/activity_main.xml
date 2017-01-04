@@ -1,70 +1,93 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/activity_main"
+    android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.appex.bartobusiness.activities.MainActivity">
+    android:elevation="7dp">
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/card_recycler_view"
+    <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/activity_main"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:scrollbars="vertical" />
+        tools:context="com.appex.barcards.activities.MainActivity">
 
-    <TextView
-        android:id="@+id/no_card_text_view"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:visibility="gone"
-        android:drawableTop="@drawable/ic_priority_high_black_48dp"
-        android:drawableTint="@android:color/darker_gray"
-        android:gravity="center"
-        android:text="@string/no_cards"
-        android:textColor="@android:color/darker_gray"
-        android:textSize="17sp" />
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary"
+            app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
 
-    <com.github.clans.fab.FloatingActionMenu
-        android:id="@+id/fab_menu"
-        android:layout_width="match_parent"
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/card_recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scrollbars="vertical" />
+
+        <TextView
+            android:id="@+id/no_card_text_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:drawableTop="@drawable/ic_priority_high_black_48dp"
+            android:gravity="center"
+            android:text="@string/no_cards"
+            android:textColor="@android:color/darker_gray"
+            android:textSize="17sp"
+            android:visibility="gone" />
+
+        <com.github.clans.fab.FloatingActionMenu
+            android:id="@+id/fab_menu"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:padding="15dp"
+            app:menu_backgroundColor="#ccffffff"
+            app:menu_icon="@drawable/ic_add_white_36dp"
+            app:menu_labels_ellipsize="end"
+            app:menu_labels_singleLine="true">
+
+            <com.github.clans.fab.FloatingActionButton
+                android:id="@+id/fab_mycards"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="25dp"
+                android:src="@drawable/ic_credit_card_white_24dp"
+                app:fab_label="My Cards"
+                app:fab_size="mini" />
+
+            <com.github.clans.fab.FloatingActionButton
+                android:id="@+id/fab_add_card"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_create_white_24dp"
+                app:fab_label="New Card"
+                app:fab_size="mini" />
+
+            <com.github.clans.fab.FloatingActionButton
+                android:id="@+id/fab_scan_qr"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="25dp"
+                android:src="@drawable/ic_camera"
+                app:fab_label="Scan QR"
+                app:fab_size="mini" />
+
+
+        </com.github.clans.fab.FloatingActionMenu>
+
+    </android.support.design.widget.CoordinatorLayout>
+
+    <android.support.design.widget.NavigationView
+        android:id="@+id/navigation_view"
+        android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
-        android:padding="15dp"
-        app:menu_backgroundColor="#ccffffff"
-        app:menu_icon="@drawable/ic_add_white_36dp"
-        app:menu_labels_ellipsize="end"
-        app:menu_labels_singleLine="true">
-
-        <com.github.clans.fab.FloatingActionButton
-            android:id="@+id/fab_mycards"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="25dp"
-            android:src="@drawable/ic_credit_card_white_24dp"
-            app:fab_label="My Cards"
-            app:fab_size="mini" />
-
-        <com.github.clans.fab.FloatingActionButton
-            android:id="@+id/fab_add_card"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_create_white_24dp"
-            app:fab_label="New Card"
-            app:fab_size="mini" />
-
-        <com.github.clans.fab.FloatingActionButton
-            android:id="@+id/fab_scan_qr"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="25dp"
-            android:src="@drawable/ic_camera"
-            app:fab_label="Scan QR"
-            app:fab_size="mini" />
-
-
-    </com.github.clans.fab.FloatingActionMenu>
-
-</android.support.design.widget.CoordinatorLayout>
+        android:layout_gravity="start"
+        app:headerLayout="@layout/navigation_header"
+        app:menu="@menu/navigation_menu" />
+</android.support.v4.widget.DrawerLayout>

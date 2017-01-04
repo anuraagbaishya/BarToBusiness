@@ -1,4 +1,4 @@
-package com.appex.bartobusiness.adapters;
+package com.appex.barcards.adapters;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -8,8 +8,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.appex.bartobusiness.R;
-import com.appex.bartobusiness.models.MyCard;
+import com.appex.barcards.R;
+import com.appex.barcards.models.MyCard;
 
 import java.util.List;
 

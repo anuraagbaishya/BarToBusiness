@@ -1,4 +1,4 @@
-package com.appex.bartobusiness.activities;
+package com.appex.barcards.activities;
 
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
@@ -9,9 +9,9 @@ import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
 import android.util.Log;
 
-import com.appex.bartobusiness.R;
-import com.appex.bartobusiness.adapters.MyCardAdapter;
-import com.appex.bartobusiness.models.MyCard;
+import com.appex.barcards.R;
+import com.appex.barcards.adapters.MyCardAdapter;
+import com.appex.barcards.models.MyCard;
 
 import java.io.File;
 import java.util.ArrayList;
