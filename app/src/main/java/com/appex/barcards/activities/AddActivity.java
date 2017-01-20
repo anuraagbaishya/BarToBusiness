@@ -6,6 +6,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
+import android.support.design.widget.TextInputEditText;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
@@ -22,8 +23,8 @@ public class AddActivity extends AppCompatActivity {
 
     Button addButton;
     EditText nameEditText, positionEditText, companyEditText;
-    EditText emailEditText, phoneEditText, addLine1EditText;
-    EditText addLine2EditText, addLine3EditText;
+    EditText emailEditText, phoneEditText, linkedinEditText;
+    EditText addLine2EditText, addLine3EditText, addLine1EditText;
     ScrollView scrollView;
     String key;
     ProgressDialog progressDialog;
@@ -37,16 +38,20 @@ public class AddActivity extends AppCompatActivity {
         final DatabaseReference databaseReference = firebaseDatabase.getReference();
 
         addButton = (Button) findViewById(R.id.button);
-        nameEditText = (EditText) findViewById(R.id.name_edit_text);
-        positionEditText = (EditText) findViewById(R.id.position_edit_text);
-        companyEditText = (EditText) findViewById(R.id.company_edit_text);
-        phoneEditText = (EditText) findViewById(R.id.phone_edit_text);
-        emailEditText = (EditText) findViewById(R.id.email_edit_text);
-        addLine1EditText = (EditText) findViewById(R.id.add_line1_edit_text);
-        addLine2EditText = (EditText) findViewById(R.id.add_line2_edit_text);
-        addLine3EditText = (EditText) findViewById(R.id.add_line3_edit_text);
+        nameEditText = (TextInputEditText) findViewById(R.id.name_edit_text);
+        positionEditText = (TextInputEditText) findViewById(R.id.position_edit_text);
+        companyEditText = (TextInputEditText) findViewById(R.id.company_edit_text);
+        phoneEditText = (TextInputEditText) findViewById(R.id.phone_edit_text);
+        emailEditText = (TextInputEditText) findViewById(R.id.email_edit_text);
+        addLine1EditText = (TextInputEditText) findViewById(R.id.add_line1_edit_text);
+        addLine2EditText = (TextInputEditText) findViewById(R.id.add_line2_edit_text);
+        addLine3EditText = (TextInputEditText) findViewById(R.id.add_line3_edit_text);
+        linkedinEditText = (TextInputEditText) findViewById(R.id.linkedin_edit_text);
         scrollView = (ScrollView) findViewById(R.id.main_activity_scroll_view);
 
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setMessage("Adding to DataBase");
+        progressDialog.setCancelable(false);
 
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -54,6 +59,10 @@ public class AddActivity extends AppCompatActivity {
 
                 if (isInternetConnected()) {
 
+                    progressDialog.show();
+                    String linkedinURL = linkedinEditText.getText().toString();
+                    if(linkedinURL.isEmpty())
+                        linkedinURL = "NA";
                     Card card = new Card(nameEditText.getText().toString(),
                             positionEditText.getText().toString(),
                             companyEditText.getText().toString(),
@@ -61,10 +70,13 @@ public class AddActivity extends AppCompatActivity {
                             emailEditText.getText().toString(),
                             addLine1EditText.getText().toString(),
                             addLine2EditText.getText().toString(),
-                            addLine3EditText.getText().toString());
+                            addLine3EditText.getText().toString(),
+                            linkedinURL);
 
                     key = databaseReference.child("cards").push().getKey();
                     databaseReference.child("cards").child(key).setValue(card);
+
+                    progressDialog.dismiss();
 
                     Snackbar.make(scrollView, "Added", Snackbar.LENGTH_SHORT).show();
 
@@ -74,9 +86,7 @@ public class AddActivity extends AppCompatActivity {
                     QRFragment qrFragment = new QRFragment();
                     qrFragment.setArguments(bundle);
                     qrFragment.show(getSupportFragmentManager(), "qr fragment");
-                }
-
-                else
+                } else
                     Snackbar.make(scrollView, "Check Internet Connection", Snackbar.LENGTH_SHORT).show();
             }
         });

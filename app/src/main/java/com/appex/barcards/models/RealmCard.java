@@ -2,10 +2,6 @@ package com.appex.barcards.models;
 
 import io.realm.RealmObject;
 
-/**
- * Created by anuraag on 12/29/16.
- */
-
 public class RealmCard extends RealmObject {
 
     private String name;
@@ -16,6 +12,7 @@ public class RealmCard extends RealmObject {
     private String addLine1;
     private String addLine2;
     private String addLine3;
+    private String linkedin;
 
     public String getName() {
         return name;
@@ -55,6 +52,14 @@ public class RealmCard extends RealmObject {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getLinkedin() {
+        return linkedin;
+    }
+
+    public void setLinkedin(String linkedin) {
+        this.linkedin = linkedin;
     }
 
     public String getAddLine1() {

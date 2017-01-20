@@ -3,6 +3,7 @@ package com.appex.barcards.adapters;
 import android.content.Context;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,14 +16,14 @@ import java.util.List;
 
 public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder> {
 
-    static class CardViewHolder extends RecyclerView.ViewHolder{
+    static class CardViewHolder extends RecyclerView.ViewHolder {
 
         TextView nameTextView, positionTextView, companyTextView;
         TextView emailTextView, phoneTextView, addLine1TextView;
         TextView addLine2TextView;
         CardView cardView;
 
-        CardViewHolder(View view){
+        CardViewHolder(View view) {
 
             super(view);
 
@@ -53,20 +54,27 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
     }
 
     @Override
-    public void onBindViewHolder(CardViewHolder holder, int position){
+    public void onBindViewHolder(CardViewHolder holder, int position) {
 
-        RealmCard card = realmCardList.get(position);
+        final RealmCard card = realmCardList.get(position);
         holder.nameTextView.setText(card.getName());
         holder.positionTextView.setText(card.getPosition());
         holder.companyTextView.setText(card.getCompany());
         holder.phoneTextView.setText(card.getPhone());
         holder.emailTextView.setText(card.getEmail());
         holder.addLine1TextView.setText(card.getAddLine1());
-        holder.addLine2TextView.setText(card.getAddLine2()+", "+card.getAddLine3());
+        holder.addLine2TextView.setText(card.getAddLine2() + ", " + card.getAddLine3());
+        holder.cardView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                Log.d("LINKEDIN", card.getLinkedin());
+                return false;
+            }
+        });
     }
 
     @Override
-    public int getItemCount(){
+    public int getItemCount() {
 
         return realmCardList.size();
     }

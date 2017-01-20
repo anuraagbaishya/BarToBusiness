@@ -3,7 +3,7 @@ package com.appex.barcards.models;
 import com.google.firebase.database.IgnoreExtraProperties;
 
 @IgnoreExtraProperties
-public class Card{
+public class Card {
 
     private String name;
     private String position;
@@ -13,12 +13,13 @@ public class Card{
     private String addLine1;
     private String addLine2;
     private String addLine3;
+    private String linkedin;
 
-    public Card(){
-        
+    public Card() {
+
     }
 
-    public Card(String name, String position, String company, String phone, String email, String addLine1, String addLine2, String addLine3) {
+    public Card(String name, String position, String company, String phone, String email, String addLine1, String addLine2, String addLine3, String linkedin) {
         this.name = name;
         this.position = position;
         this.company = company;
@@ -27,6 +28,8 @@ public class Card{
         this.addLine1 = addLine1;
         this.addLine2 = addLine2;
         this.addLine3 = addLine3;
+        this.linkedin = linkedin;
+
     }
 
     public String getName() {
@@ -67,6 +70,14 @@ public class Card{
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getLinkedin() {
+        return linkedin;
+    }
+
+    public void setLinkedin(String linkedin) {
+        this.linkedin = linkedin;
     }
 
     public String getAddLine1() {

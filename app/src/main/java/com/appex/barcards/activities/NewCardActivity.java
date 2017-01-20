@@ -92,6 +92,7 @@ public class NewCardActivity extends AppCompatActivity {
                                     realmCard.setAddLine1(card.getAddLine1());
                                     realmCard.setAddLine2(card.getAddLine2());
                                     realmCard.setAddLine3(card.getAddLine3());
+                                    realmCard.setLinkedin(card.getLinkedin());
                                 }
                             });
                         }
@@ -127,5 +128,12 @@ public class NewCardActivity extends AppCompatActivity {
                 startActivity(new Intent(getApplicationContext(), MainActivity.class));
             }
         });
+    }
+
+    @Override
+    public void onBackPressed(){
+
+        startActivity(new Intent(getApplicationContext(), MainActivity.class));
+        finish();
     }
 }

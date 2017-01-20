@@ -5,6 +5,7 @@
     <string name="company">Company</string>
     <string name="phone">Phone Number</string>
     <string name="email">Email</string>
+    <string name="linkedin">LinkedIn URL</string>
     <string name="add_line1">Address Line 1</string>
     <string name="add_line2">Address Line 2</string>
     <string name="add_line3">Address Line 3</string>
