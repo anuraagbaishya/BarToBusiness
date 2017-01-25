@@ -1,15 +1,18 @@
 package com.appex.barcards.adapters;
 
 import android.content.Context;
+import android.net.Uri;
+import android.support.customtabs.CustomTabsIntent;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.appex.barcards.R;
+import com.appex.barcards.activities.MainActivity;
 import com.appex.barcards.models.RealmCard;
 
 import java.util.List;
@@ -22,6 +25,7 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
         TextView emailTextView, phoneTextView, addLine1TextView;
         TextView addLine2TextView;
         CardView cardView;
+        ImageView linkedInImageView;
 
         CardViewHolder(View view) {
 
@@ -35,6 +39,7 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
             emailTextView = (TextView) view.findViewById(R.id.email_list_text_view);
             addLine1TextView = (TextView) view.findViewById(R.id.add_line1_list_text_view);
             addLine2TextView = (TextView) view.findViewById(R.id.add_line2_list_text_view);
+            linkedInImageView = (ImageView) view.findViewById(R.id.linkedin_image_view);
         }
     }
 
@@ -64,11 +69,14 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
         holder.emailTextView.setText(card.getEmail());
         holder.addLine1TextView.setText(card.getAddLine1());
         holder.addLine2TextView.setText(card.getAddLine2() + ", " + card.getAddLine3());
-        holder.cardView.setOnLongClickListener(new View.OnLongClickListener() {
+        holder.linkedInImageView.setOnClickListener(new View.OnClickListener() {
             @Override
-            public boolean onLongClick(View v) {
-                Log.d("LINKEDIN", card.getLinkedin());
-                return false;
+            public void onClick(View v) {
+
+                Uri url = Uri.parse(card.getLinkedin());
+                CustomTabsIntent.Builder intentBuilder = new CustomTabsIntent.Builder();
+                CustomTabsIntent intent = intentBuilder.build();
+                intent.launchUrl((MainActivity)context, url);
             }
         });
     }

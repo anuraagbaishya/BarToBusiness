@@ -31,6 +31,7 @@ public class MyCardsActivity extends AppCompatActivity {
         screen_width = displayMetrics.widthPixels;
         myCards = new ArrayList<>();
         myCards = getFromSdcard();
+        Log.d("ALSIZE", Integer.toString(myCards.size()));
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.mycard_recycler_view);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext());
         MyCardAdapter myCardAdapter = new MyCardAdapter(myCards);
@@ -58,7 +59,6 @@ public class MyCardsActivity extends AppCompatActivity {
                 myCardArrayList.add(myCard);
             }
         }
-
         return myCardArrayList;
     }
 }

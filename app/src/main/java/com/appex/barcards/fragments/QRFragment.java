@@ -45,7 +45,7 @@ public class QRFragment extends DialogFragment {
 
         key = getArguments().getString("Key");
         name = getArguments().getString("Name");
-        name = name.replaceAll("\\s+","");
+        name = name.replaceAll("\\s+", "");
         try {
 
             bitmap = textToImageEncode(key);
@@ -94,9 +94,9 @@ public class QRFragment extends DialogFragment {
 
             for (int x = 0; x < bitMatrixWidth; x++) {
 
-                pixels[offset + x] = bitMatrix.get(x, y) ?
-                        ContextCompat.getColor(getActivity(), R.color.black) :
-                        ContextCompat.getColor(getActivity(), R.color.white);
+                    pixels[offset + x] = bitMatrix.get(x, y) ?
+                            ContextCompat.getColor(getActivity(), R.color.black) :
+                            ContextCompat.getColor(getActivity(), R.color.white);
             }
         }
         Bitmap bitmap = Bitmap.createBitmap(bitMatrixWidth, bitMatrixHeight, Bitmap.Config.ARGB_4444);
@@ -114,7 +114,7 @@ public class QRFragment extends DialogFragment {
             success = folder.mkdir();
 
         if (success) {
-            file = new File(Environment.getExternalStorageDirectory() + "/Pictures/B2B/" + key.substring(0,5) + name + ".PNG");
+            file = new File(Environment.getExternalStorageDirectory() + "/Pictures/B2B/" + key.substring(0, 5) + name + ".PNG");
 
             try {
                 file.createNewFile();
