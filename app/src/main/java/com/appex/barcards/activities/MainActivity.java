@@ -162,7 +162,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         Toast.makeText(getApplicationContext(), "Settings", Toast.LENGTH_SHORT).show();
                         break;
                     case R.id.about:
-                        Toast.makeText(getApplicationContext(), "Trash", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(), "About", Toast.LENGTH_SHORT).show();
                         drawerLayout.closeDrawers();
                         break;
 
@@ -176,7 +176,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         ImageView navProfileImageView = (ImageView) header.findViewById(R.id.nav_profile_image_view);
         navNameTextView.setText(getIntent().getStringExtra("name"));
         navEmailTextView.setText(getIntent().getStringExtra("email"));
-        Log.d("Email", getIntent().getStringExtra("email"));
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 
         String imageURL = "https://graph.facebook.com/" + getIntent().getStringExtra("userid") + "/picture?width=1200";

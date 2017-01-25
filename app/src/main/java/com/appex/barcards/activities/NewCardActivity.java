@@ -2,6 +2,7 @@ package com.appex.barcards.activities;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.support.v7.app.AppCompatActivity;
@@ -33,6 +34,7 @@ public class NewCardActivity extends AppCompatActivity {
     CardView cardView;
     Button saveButton, viewCardsButton;
     Realm realm;
+    SharedPreferences preferences;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,6 +55,7 @@ public class NewCardActivity extends AppCompatActivity {
         saveButton = (Button) findViewById(R.id.save_button);
         viewCardsButton = (Button) findViewById(R.id.view_card_button);
 
+        preferences = getSharedPreferences("com.appex.bartobusiness", MODE_PRIVATE);
         progressDialog = new ProgressDialog(this);
         progressDialog.setMessage("Reading Data");
         progressDialog.setCancelable(false);
@@ -125,7 +128,7 @@ public class NewCardActivity extends AppCompatActivity {
         viewCardsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                startMainActivity();
             }
         });
     }
@@ -133,7 +136,15 @@ public class NewCardActivity extends AppCompatActivity {
     @Override
     public void onBackPressed(){
 
-        startActivity(new Intent(getApplicationContext(), MainActivity.class));
+        startMainActivity();
+    }
+
+    private void startMainActivity(){
+
+        startActivity(new Intent(getApplicationContext(), MainActivity.class)
+                .putExtra("email", preferences.getString("email", "null"))
+                .putExtra("name", preferences.getString("name", "null"))
+                .putExtra("userid", preferences.getString("userid", "1234")));
         finish();
     }
 }

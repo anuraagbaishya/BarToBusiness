@@ -93,6 +93,8 @@ public class LoginActivity extends AppCompatActivity {
     public void startMainActivity(String email) {
 
         Profile profile = Profile.getCurrentProfile();
+        preferences.edit().putString("name",profile.getName()).apply();
+        preferences.edit().putString("userid", profile.getId()).apply();
         Intent intent = new Intent(this, MainActivity.class);
         intent.putExtra("userid", profile.getId());
         intent.putExtra("name", profile.getName());
