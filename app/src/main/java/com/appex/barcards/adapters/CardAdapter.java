@@ -1,6 +1,7 @@
 package com.appex.barcards.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.support.customtabs.CustomTabsIntent;
 import android.support.v7.widget.CardView;
@@ -13,6 +14,7 @@ import android.widget.TextView;
 
 import com.appex.barcards.R;
 import com.appex.barcards.activities.MainActivity;
+import com.appex.barcards.activities.MapsActivity;
 import com.appex.barcards.models.RealmCard;
 
 import java.util.List;
@@ -25,7 +27,7 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
         TextView emailTextView, phoneTextView, addLine1TextView;
         TextView addLine2TextView;
         CardView cardView;
-        ImageView linkedInImageView;
+        ImageView linkedInImageView, mapImageView;
 
         CardViewHolder(View view) {
 
@@ -40,6 +42,7 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
             addLine1TextView = (TextView) view.findViewById(R.id.add_line1_list_text_view);
             addLine2TextView = (TextView) view.findViewById(R.id.add_line2_list_text_view);
             linkedInImageView = (ImageView) view.findViewById(R.id.linkedin_image_view);
+            mapImageView = (ImageView) view.findViewById(R.id.map_image_view);
         }
     }
 
@@ -79,6 +82,14 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
                 intent.launchUrl((MainActivity)context, url);
             }
         });
+        holder.mapImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                context.startActivity(new Intent(context, MapsActivity.class)
+                        .putExtra("loc", card.getAddLine1()+" "+card.getAddLine2()+" "+card.getAddLine3()));
+            }
+        });
+
     }
 
     @Override
