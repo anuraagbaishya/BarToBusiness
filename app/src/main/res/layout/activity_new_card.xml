@@ -40,7 +40,7 @@
             android:layout_height="2dp"
             android:layout_gravity="center"
             android:layout_margin="5dp"
-            android:background="@android:drawable/divider_horizontal_textfield" />
+            android:background="@color/colorAccent" />
 
         <TextView
             android:id="@+id/name_text_view"
@@ -117,7 +117,7 @@
             android:layout_height="2dp"
             android:layout_gravity="center"
             android:layout_margin="5dp"
-            android:background="@android:drawable/divider_horizontal_textfield" />
+            android:background="@color/colorAccent" />
 
         <TextView
             android:id="@+id/add_line1_text_view"
@@ -155,7 +155,7 @@
                 android:layout_weight="1"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
-                android:background="@color/colorPrimary"
+                android:background="@color/colorPrimaryDark"
                 android:text="@string/view_cards"
                 android:textColor="@color/white"
                 android:textSize="15sp" />
@@ -165,7 +165,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
-                android:background="@color/colorPrimary"
+                android:background="@color/colorPrimaryDark"
                 android:text="@string/save"
                 android:textColor="@color/white"
                 android:textSize="15sp" />
