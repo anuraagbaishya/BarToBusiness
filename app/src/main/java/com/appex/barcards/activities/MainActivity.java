@@ -162,7 +162,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         Toast.makeText(getApplicationContext(), "Settings", Toast.LENGTH_SHORT).show();
                         break;
                     case R.id.about:
-                        Toast.makeText(getApplicationContext(), "About", Toast.LENGTH_SHORT).show();
+                        startActivity(new Intent(getApplicationContext(), AboutActivity.class));
                         drawerLayout.closeDrawers();
                         break;
 
