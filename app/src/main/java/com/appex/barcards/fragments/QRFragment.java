@@ -4,6 +4,8 @@ import android.app.ProgressDialog;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.annotation.NonNull;
@@ -19,6 +21,8 @@ import android.widget.Toast;
 import com.appex.barcards.R;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -31,6 +35,8 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 import static android.content.Context.MODE_PRIVATE;
 
@@ -44,6 +50,7 @@ public class QRFragment extends DialogFragment {
     FileOutputStream fileOutputStream;
     SharedPreferences preferences;
     ProgressDialog progressDialog;
+    Uri downloadUrl;
     private static final int WRITE_PERMISSION = 1;
 
     @Override
@@ -162,6 +169,9 @@ public class QRFragment extends DialogFragment {
         }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
             @Override
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                downloadUrl = taskSnapshot.getDownloadUrl();
+                UrlTask urlTask = new UrlTask();
+                urlTask.execute(downloadUrl.toString());
                 progressDialog.dismiss();
                 Toast.makeText(getActivity(), "Upload Successfull", Toast.LENGTH_SHORT).show();
             }
@@ -183,6 +193,21 @@ public class QRFragment extends DialogFragment {
                     writeToStorage(bitmap, key);
                 } else
                     Toast.makeText(getActivity(), "Cannot Save", Toast.LENGTH_SHORT).show();
+        }
+
+    }
+
+    private class UrlTask extends AsyncTask<String, Void, Void>{
+
+        protected Void doInBackground(String... params){
+
+            FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+            final DatabaseReference databaseReference = firebaseDatabase.getReference();
+            Map<String, Object> childUpdates = new HashMap<>();
+            String key = databaseReference.child("urls").child(preferences.getString("userid", "null")).push().getKey();
+            childUpdates.put("/"+key+"/", params[0]);
+            databaseReference.child("urls").child(preferences.getString("userid", "null")).updateChildren(childUpdates);
+            return null;
         }
 
     }

@@ -75,6 +75,4 @@ public class MyCardAdapter extends RecyclerView.Adapter<MyCardAdapter.MyCardView
 
         return myCards.size();
     }
-
-
 }
