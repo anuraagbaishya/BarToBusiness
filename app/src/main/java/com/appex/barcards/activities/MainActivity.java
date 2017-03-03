@@ -12,6 +12,8 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
@@ -125,6 +127,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 backPressed = false;
             }
         }, 2000);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu){
+        MenuInflater menuInflater = getMenuInflater();
+        menuInflater.inflate(R.menu.menu_main,menu);
+        return false;
     }
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
