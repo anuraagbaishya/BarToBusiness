@@ -32,8 +32,6 @@ public class SplashActivity extends AppCompatActivity {
 
         Typeface typeface = Typeface.createFromAsset(getAssets(), "Adequate-ExtraLight.ttf");
 
-//        TextView textView = (TextView) findViewById(R.id.branding_text_view);
-//        textView.setTypeface(typeface);
         Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
             @Override
