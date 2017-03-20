@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "829003039128",
+    "firebase_url": "https://bartobusiness.firebaseio.com",
+    "project_id": "bartobusiness",
+    "storage_bucket": "bartobusiness.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:829003039128:android:8266e04dc00c9e78",
+        "android_client_info": {
+          "package_name": "com.appex.barcards"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "829003039128-4ojpb010n01bb8rhdvsjt1tie3cdbl3s.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB7SDj1Xy2uHqTOK7RA8Wdx4xHS9l8D2nQ"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
