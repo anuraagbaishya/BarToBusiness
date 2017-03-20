@@ -180,6 +180,7 @@ public class MyCardsActivity extends AppCompatActivity {
     private void display(){
 
         Log.d("Display", "Display");
+        myCards = new ArrayList<>();
         myCards.clear();
         myCards.addAll(getFromSdcard());
         Log.d("ALSIZE", Integer.toString(myCards.size()));
