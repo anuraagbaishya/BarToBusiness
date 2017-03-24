@@ -20,6 +20,7 @@
     <string name="sync">Sync cards</string>
     <string name="basic">Basic</string>
     <string name="other">Other</string>
+    <string name="permission_message">Need permission to call phone</string>
 
     <!-- Strings related to login -->
     <string name="prompt_email">Email</string>

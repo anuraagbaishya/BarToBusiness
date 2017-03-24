@@ -5,18 +5,17 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
-import android.support.annotation.NonNull;
 import android.support.customtabs.CustomTabsIntent;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.appex.barcards.R;
 import com.appex.barcards.activities.MainActivity;
@@ -30,7 +29,8 @@ import java.util.regex.Pattern;
 public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder> {
 
     private static final int CALL_PERMISSION = 1;
-    String telno;
+    private String telno;
+    private PermissionRequestResult permissionRequestResult;
 
     static class CardViewHolder extends RecyclerView.ViewHolder {
 
@@ -65,10 +65,28 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
         this.context = context;
     }
 
+    public PermissionRequestResult getPermissionRequestResult() {
+        return permissionRequestResult;
+    }
+
     @Override
     public CardViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.card_list_item, parent, false);
         return new CardViewHolder(view);
+    }
+
+    private void showRationale(View view) {
+        Snackbar.make(view, R.string.permission_message, Snackbar.LENGTH_INDEFINITE)
+                .setAction(android.R.string.ok, new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        showPermissionDialog();
+                    }
+                }).show();
+    }
+
+    private void showPermissionDialog() {
+        ActivityCompat.requestPermissions((MainActivity)context, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, CALL_PERMISSION);
     }
 
     @Override
@@ -107,7 +125,17 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
         holder.phoneTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                callPhone(telno, view);
+            }
+        });
 
+        holder.emailTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                StringBuilder builder = new StringBuilder("mailto:" + Uri.encode(card.getEmail()));
+                String uri = builder.toString();
+                Intent intent = new Intent(Intent.ACTION_SENDTO, Uri.parse(uri)).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                context.startActivity(intent);
             }
         });
     }
@@ -125,34 +153,36 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
         return matcher.matches();
     }
 
-    private void callPhone(String telno){
+    private void callPhone(final String telno, View view){
 
-        if (ContextCompat.checkSelfPermission(context, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
-
-            if (ActivityCompat.shouldShowRequestPermissionRationale((MainActivity) context, Manifest.permission.CALL_PHONE)) {
-            } else {
-                ActivityCompat.requestPermissions((MainActivity) context, new String[]{Manifest.permission.CALL_PHONE},CALL_PERMISSION);
+        this.permissionRequestResult = new PermissionRequestResult() {
+            @Override
+            public void onPermitted() {
+                Log.d("BLAH", "BLAH");
+                Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + telno));
+                try{
+                    context.startActivity(intent);
+                }
+                catch (SecurityException e){
+                    e.printStackTrace();
+                }
             }
-        }
-        else {
+        };
+        if (ActivityCompat.checkSelfPermission(context, android.Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+
             Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + telno));
             context.startActivity(intent);
         }
-    }
-    public void onRequestPermissionsResult(int requestCode,
-                                           @NonNull String permissions[],
-                                           @NonNull int[] grantResults) {
-
-        switch (requestCode) {
-
-            case CALL_PERMISSION:
-
-                if (grantResults.length > 0
-                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    callPhone(telno);
-                } else
-                    Toast.makeText(getActivity(), "Cannot Save", Toast.LENGTH_SHORT).show();
+        else {
+            if (ActivityCompat.shouldShowRequestPermissionRationale((MainActivity)context, Manifest.permission.WRITE_EXTERNAL_STORAGE))
+                showRationale(view);
+            else {
+                showPermissionDialog();
+            }
         }
+    }
 
+    private interface PermissionRequestResult {
+        void onPermitted();
     }
 }
