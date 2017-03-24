@@ -18,6 +18,8 @@
     <string name="no_cards">You Have No Cards</string>
     <string name="copyright">&#169; Appex Corporation 2017</string>
     <string name="sync">Sync cards</string>
+    <string name="basic">Basic</string>
+    <string name="other">Other</string>
 
     <!-- Strings related to login -->
     <string name="prompt_email">Email</string>

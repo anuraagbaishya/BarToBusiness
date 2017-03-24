@@ -13,6 +13,31 @@
         android:orientation="vertical"
         tools:context="com.appex.barcards.activities.AddActivity">
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <View
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:background="@color/colorAccent"/>
+            <TextView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:layout_height="wrap_content"
+                android:textAllCaps="true"
+                android:text="@string/basic"/>
+            <View
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:background="@color/colorAccent"/>
+        </LinearLayout>
+
         <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
@@ -46,14 +71,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <android.support.design.widget.TextInputEditText
-                android:id="@+id/company_edit_text"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="5dp"
-                android:hint="@string/company"
-                android:inputType="textCapWords"
-                android:textSize="15sp" />
         </android.support.design.widget.TextInputLayout>
 
         <android.support.design.widget.TextInputLayout
@@ -83,6 +100,41 @@
                 android:inputType="textEmailAddress"
                 android:textSize="15sp" />
         </android.support.design.widget.TextInputLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:orientation="horizontal">
+            <View
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:background="@color/colorAccent"/>
+            <TextView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:layout_height="wrap_content"
+                android:textAllCaps="true"
+                android:text="@string/other"/>
+            <View
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:background="@color/colorAccent"/>
+        </LinearLayout>
+
+        <android.support.design.widget.TextInputEditText
+            android:id="@+id/company_edit_text"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:hint="@string/company"
+            android:inputType="textCapWords"
+            android:textSize="15sp" />
 
         <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
