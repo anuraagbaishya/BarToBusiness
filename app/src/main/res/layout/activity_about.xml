@@ -7,8 +7,8 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/colorPrimaryDark"
+        android:layout_height="wrap_content"
+        android:background="@android:color/white"
         android:orientation="vertical"
         tools:context="com.appex.barcards.activities.AboutActivity">
 
@@ -24,13 +24,12 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="40dp"
             android:drawablePadding="5dp"
             android:fontFamily="sans-serif-condensed"
             android:gravity="center_vertical"
             android:padding="10dp"
             android:text="@string/version"
-            android:textColor="@color/white"
+            android:textColor="@color/colorPrimaryDark"
             android:textSize="17sp"
             android:textStyle="bold" />
 
@@ -49,7 +48,7 @@
             android:gravity="center_vertical"
             android:padding="10dp"
             android:text="@string/connect"
-            android:textColor="@color/white"
+            android:textColor="@color/colorPrimaryDark"
             android:textSize="17sp"
             android:textStyle="bold" />
 
@@ -58,12 +57,12 @@
             android:layout_height="wrap_content"
             android:drawableLeft="@drawable/ic_email_black_24dp"
             android:drawablePadding="5dp"
-            android:drawableTint="@color/white"
+            android:drawableTint="@color/colorPrimaryDark"
             android:fontFamily="sans-serif-condensed"
             android:gravity="center_vertical"
             android:padding="10dp"
             android:text="@string/email_about"
-            android:textColor="@color/white"
+            android:textColor="@color/colorPrimaryDark"
             android:textSize="17sp" />
 
         <View
@@ -78,12 +77,12 @@
             android:layout_height="wrap_content"
             android:drawableLeft="@drawable/ic_web"
             android:drawablePadding="5dp"
-            android:drawableTint="@color/white"
+            android:drawableTint="@color/colorPrimaryDark"
             android:fontFamily="sans-serif-condensed"
             android:gravity="center_vertical"
             android:padding="10dp"
             android:text="@string/web_about"
-            android:textColor="@color/white"
+            android:textColor="@color/colorPrimaryDark"
             android:textSize="17sp" />
 
         <View
@@ -98,12 +97,12 @@
             android:layout_height="wrap_content"
             android:drawableLeft="@drawable/ic_fb"
             android:drawablePadding="5dp"
-            android:drawableTint="@color/white"
+            android:drawableTint="@color/colorPrimaryDark"
             android:fontFamily="sans-serif-condensed"
             android:gravity="center_vertical"
             android:padding="10dp"
             android:text="@string/fb_about"
-            android:textColor="@color/white"
+            android:textColor="@color/colorPrimaryDark"
             android:textSize="17sp" />
 
         <View
@@ -118,18 +117,18 @@
             android:layout_height="wrap_content"
             android:drawableLeft="@drawable/ic_play"
             android:drawablePadding="5dp"
-            android:drawableTint="@color/white"
+            android:drawableTint="@color/colorPrimaryDark"
             android:fontFamily="sans-serif-condensed"
             android:gravity="center_vertical"
             android:padding="10dp"
             android:text="@string/play_about"
-            android:textColor="@color/white"
+            android:textColor="@color/colorPrimaryDark"
             android:textSize="17sp" />
         <Button
             android:id="@+id/license_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/colorPrimary"
+            android:background="@color/colorPrimaryDark"
             android:layout_margin="5dp"
             android:text="@string/view_licence"
             android:textColor="@color/white"/>

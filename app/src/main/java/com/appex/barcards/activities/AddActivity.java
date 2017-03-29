@@ -2,22 +2,49 @@ package com.appex.barcards.activities;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.net.Uri;
+import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
+import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputEditText;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ScrollView;
+import android.widget.Toast;
 
 import com.appex.barcards.R;
 import com.appex.barcards.fragments.QRFragment;
 import com.appex.barcards.models.Card;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
+import com.google.zxing.BarcodeFormat;
+import com.google.zxing.MultiFormatWriter;
+import com.google.zxing.WriterException;
+import com.google.zxing.common.BitMatrix;
+
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 public class AddActivity extends AppCompatActivity {
 
@@ -26,8 +53,15 @@ public class AddActivity extends AppCompatActivity {
     EditText emailEditText, phoneEditText, linkedinEditText;
     EditText addLine2EditText, addLine3EditText, addLine1EditText;
     ScrollView scrollView;
-    String key;
+    public final static int QRcodeWidth = 500, WRITE_PERMISSION = 1;
+    Bitmap bitmap;
+    ByteArrayOutputStream outputStream;
+    File file;
+    String key, name;
+    FileOutputStream fileOutputStream;
+    SharedPreferences preferences;
     ProgressDialog progressDialog;
+    Uri downloadUrl;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,15 +87,18 @@ public class AddActivity extends AppCompatActivity {
         progressDialog.setMessage("Adding to DataBase");
         progressDialog.setCancelable(false);
 
+        outputStream = new ByteArrayOutputStream();
+
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
+                name = nameEditText.getText().toString();
                 if (isInternetConnected()) {
 
                     progressDialog.show();
                     String linkedinURL = linkedinEditText.getText().toString();
-                    if(linkedinURL.isEmpty())
+                    if (linkedinURL.isEmpty())
                         linkedinURL = "NA";
                     Card card = new Card(nameEditText.getText().toString(),
                             positionEditText.getText().toString(),
@@ -76,18 +113,35 @@ public class AddActivity extends AppCompatActivity {
                     key = databaseReference.child("cards").push().getKey();
                     databaseReference.child("cards").child(key).setValue(card);
 
-                    progressDialog.dismiss();
-
                     Snackbar.make(scrollView, "Added", Snackbar.LENGTH_SHORT).show();
 
-                    Bundle bundle = new Bundle();
-                    bundle.putString("Key", key);
-                    bundle.putString("Name", nameEditText.getText().toString());
-                    QRFragment qrFragment = new QRFragment();
-                    qrFragment.setArguments(bundle);
-                    qrFragment.show(getSupportFragmentManager(), "qr fragment");
+
                 } else
                     Snackbar.make(scrollView, "Check Internet Connection", Snackbar.LENGTH_SHORT).show();
+                progressDialog.dismiss();
+                progressDialog.setMessage("Uploading QR to Server");
+                progressDialog.setCancelable(false);
+                progressDialog.show();
+
+                try {
+                    bitmap = textToImageEncode(key);
+                    Log.d("BIT", bitmap.toString());
+                } catch (WriterException e) {
+                    e.printStackTrace();
+                }
+                if (Build.VERSION.SDK_INT >= 23) {
+                    if (ContextCompat.checkSelfPermission(AddActivity.this, android.Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+
+                        requestPermissions(new String[]{android.Manifest.permission.WRITE_EXTERNAL_STORAGE}, WRITE_PERMISSION);
+                    } else {
+
+                        Log.d("BIT", bitmap.toString());
+                        Log.d("KEY", key);
+                        writeToStorage(bitmap, key);
+                    }
+                }
+                else
+                    writeToStorage(bitmap, key);
             }
         });
     }
@@ -99,5 +153,138 @@ public class AddActivity extends AppCompatActivity {
         isConnected = (activeNetwork != null)
                 && (activeNetwork.isConnectedOrConnecting());
         return isConnected;
+    }
+
+    Bitmap textToImageEncode(String Value) throws WriterException {
+        BitMatrix bitMatrix;
+        try {
+            bitMatrix = new MultiFormatWriter().encode(
+                    Value,
+                    BarcodeFormat.DATA_MATRIX.QR_CODE,
+                    QRcodeWidth, QRcodeWidth, null
+            );
+
+        } catch (IllegalArgumentException Illegalargumentexception) {
+
+            return null;
+        }
+        int bitMatrixWidth = bitMatrix.getWidth();
+
+        int bitMatrixHeight = bitMatrix.getHeight();
+
+        int[] pixels = new int[bitMatrixWidth * bitMatrixHeight];
+
+        for (int y = 0; y < bitMatrixHeight; y++) {
+            int offset = y * bitMatrixWidth;
+
+            for (int x = 0; x < bitMatrixWidth; x++) {
+
+                pixels[offset + x] = bitMatrix.get(x, y) ?
+                        ContextCompat.getColor(AddActivity.this, R.color.black) :
+                        ContextCompat.getColor(AddActivity.this, R.color.white);
+            }
+        }
+        Bitmap bitmap = Bitmap.createBitmap(bitMatrixWidth, bitMatrixHeight, Bitmap.Config.ARGB_4444);
+
+        bitmap.setPixels(pixels, 0, 500, 0, 0, bitMatrixWidth, bitMatrixHeight);
+        return bitmap;
+    }
+
+    void writeToStorage(Bitmap bitmap, String key) {
+
+        bitmap.compress(Bitmap.CompressFormat.PNG, 100, outputStream);
+        uploadOnServer(outputStream);
+        File folder = new File(Environment.getExternalStorageDirectory() + "/Pictures/B2B/");
+        Boolean success = folder.exists();
+        if (!success)
+            success = folder.mkdir();
+
+        if (success) {
+            file = new File(Environment.getExternalStorageDirectory() + "/Pictures/B2B/" + key.substring(0, 5) + name + ".PNG");
+            try {
+                file.createNewFile();
+                fileOutputStream = new FileOutputStream(file);
+                fileOutputStream.write(outputStream.toByteArray());
+                fileOutputStream.close();
+                Snackbar.make(scrollView, "Uploaded", Snackbar.LENGTH_INDEFINITE)
+                        .setAction("VIEW", new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                QRFragment qrFragment = new QRFragment();
+                                Bundle bundle = new Bundle();
+                                bundle.putByteArray("QR", outputStream.toByteArray());
+                                qrFragment.setArguments(bundle);
+                                qrFragment.show(getSupportFragmentManager(), "qr fragment");
+                            }
+                        })
+                        .setActionTextColor(ContextCompat.getColor(AddActivity.this,R.color.colorPrimaryDark)).show();
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    void uploadOnServer(final ByteArrayOutputStream outputStream) {
+
+        FirebaseStorage firebaseStorage = FirebaseStorage.getInstance();
+        StorageReference storageReference = firebaseStorage.getReference();
+        preferences = getSharedPreferences("com.appex.bartobusiness", MODE_PRIVATE);
+        StorageReference childReference = storageReference.child("userqr" + preferences.getString("userid", "null"));
+        StorageReference imageReference = childReference.child(key.substring(0, 5) + name + ".PNG");
+        byte[] data = outputStream.toByteArray();
+
+        UploadTask uploadTask = imageReference.putBytes(data);
+        uploadTask.addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                e.printStackTrace();
+                progressDialog.dismiss();
+                Toast.makeText(AddActivity.this, "Upload Failed", Toast.LENGTH_SHORT).show();
+            }
+        }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                downloadUrl = taskSnapshot.getDownloadUrl();
+                UrlTask urlTask = new UrlTask();
+                urlTask.execute(downloadUrl.toString());
+                progressDialog.dismiss();
+
+            }
+        });
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           @NonNull String permissions[],
+                                           @NonNull int[] grantResults) {
+
+        switch (requestCode) {
+
+            case WRITE_PERMISSION:
+
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+
+                    writeToStorage(bitmap, key);
+                } else
+                    Toast.makeText(AddActivity.this, "Cannot Save", Toast.LENGTH_SHORT).show();
+        }
+
+    }
+
+    private class UrlTask extends AsyncTask<String, Void, Void> {
+
+        protected Void doInBackground(String... params) {
+
+            FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+            final DatabaseReference databaseReference = firebaseDatabase.getReference();
+            Map<String, Object> childUpdates = new HashMap<>();
+            String key = databaseReference.child("urls").child(preferences.getString("userid", "null")).push().getKey();
+            childUpdates.put("/" + key + "/", params[0]);
+            databaseReference.child("urls").child(preferences.getString("userid", "null")).updateChildren(childUpdates);
+            return null;
+        }
+
     }
 }

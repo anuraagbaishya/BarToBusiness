@@ -20,8 +20,7 @@
     -->
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-
-    <uses-permission android:name="android.permission.CALL_PHONE"/>
+    <uses-permission android:name="android.permission.CALL_PHONE" />
 
     <application
         android:name=".application.InitApplication"
@@ -87,13 +86,19 @@
         <activity
             android:name=".activities.MapsActivity"
             android:label="@string/title_activity_maps" />
-        <activity android:name=".activities.AboutActivity"/>
+        <activity android:name=".activities.AboutActivity" />
 
         <meta-data
             android:name="io.fabric.ApiKey"
             android:value="e6d7c4441f03805dc38f6226eb13de9524837676" />
 
-        <activity android:name=".activities.AppIntroActivity"/>
+        <activity android:name=".activities.AppIntroActivity" />
+        <activity
+            android:name=".activities.MapsActivity2"
+            android:label="@string/title_activity_maps2" />
+        <activity
+            android:name=".MapsActivity"
+            android:label="@string/title_activity_maps"></activity>
     </application>
 
 </manifest>

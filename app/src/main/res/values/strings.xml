@@ -21,6 +21,8 @@
     <string name="basic">Basic</string>
     <string name="other">Other</string>
     <string name="permission_message">Need permission to call phone</string>
+    <string name="mwlin_text">
+    <![CDATA[Made with <span style="color: #e74c3c">&hearts;</span> in India]]></string>
 
     <!-- Strings related to login -->
     <string name="prompt_email">Email</string>
@@ -57,4 +59,5 @@
     <string name="enter_location">Enter Location</string>
     <string name="clear_filters">Clear Filters</string>
     <string name="apply_filter">Apply Filters</string>
+    <string name="title_activity_maps2">Map</string>
 </resources>
