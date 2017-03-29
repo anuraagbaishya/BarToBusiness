@@ -4,10 +4,15 @@
 
     To get one, follow this link, follow the directions and press "Create" at the end:
 
-    https://console.developers.google.com/flows/enableapi?apiid=maps_android_backend&keyType=CLIENT_SIDE_ANDROID&r=70:06:11:AF:0A:DE:C3:DE:CB:9F:F4:4B:E1:33:10:CD:ED:62:0F:17%3Bcom.appex.barcards.activities
+    https://console.developers.google.com/flows/enableapi?apiid=maps_android_backend&keyType=CLIENT_SIDE_ANDROID&r=70:06:11:AF:0A:DE:C3:DE:CB:9F:F4:4B:E1:33:10:CD:ED:62:0F:17%3Bcom.appex.barcards
 
-    You can also add your credentials to an existing key, using this line:
-    70:06:11:AF:0A:DE:C3:DE:CB:9F:F4:4B:E1:33:10:CD:ED:62:0F:17;com.appex.barcards.activities
+    You can also add your credentials to an existing key, using these values:
+
+    Package name:
+    70:06:11:AF:0A:DE:C3:DE:CB:9F:F4:4B:E1:33:10:CD:ED:62:0F:17
+
+    SHA-1 certificate fingerprint:
+    70:06:11:AF:0A:DE:C3:DE:CB:9F:F4:4B:E1:33:10:CD:ED:62:0F:17
 
     Alternatively, follow the directions here:
     https://developers.google.com/maps/documentation/android/start#get-key
@@ -16,6 +21,6 @@
     string in this file.
     -->
     <string name="google_maps_key" templateMergeStrategy="preserve" translatable="false">
-        AIzaSyDHq-2RIYQaHNB5LLw7JxNKZE5h1XoK5bY
+        YOUR_KEY_HERE
     </string>
 </resources>
