@@ -4,8 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
-import android.support.design.widget.BottomSheetBehavior;
-import android.support.design.widget.BottomSheetDialog;
 import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -19,12 +17,12 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.appex.barcards.R;
 import com.appex.barcards.adapters.CardAdapter;
+import com.appex.barcards.fragments.FilterFragment;
 import com.appex.barcards.models.RealmCard;
 import com.appex.barcards.utils.CircleTransform;
 import com.github.clans.fab.FloatingActionButton;
@@ -38,7 +36,7 @@ import java.util.ArrayList;
 import io.realm.Realm;
 import io.realm.RealmResults;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+public class MainActivity extends AppCompatActivity implements View.OnClickListener, FilterFragment.OnFilterAppliedListener {
 
     CardAdapter cardAdapter;
     RecyclerView recyclerView;
@@ -116,7 +114,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onBackPressed() {
-        if(backPressed){
+        if (backPressed) {
             super.onBackPressed();
             return;
         }
@@ -133,35 +131,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu){
+    public boolean onCreateOptionsMenu(Menu menu) {
         super.onCreateOptionsMenu(menu);
         MenuInflater menuInflater = getMenuInflater();
-        menuInflater.inflate(R.menu.menu_main,menu);
+        menuInflater.inflate(R.menu.menu_main, menu);
         return true;
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item){
+    public boolean onOptionsItemSelected(MenuItem item) {
 
-        switch (item.getItemId()){
+        switch (item.getItemId()) {
             case R.id.filter_menu_item:
-                View view = View.inflate(MainActivity.this, R.layout.dialog_filter, null);
-                final BottomSheetDialog dialog = new BottomSheetDialog(MainActivity.this);
-
-                dialog.setContentView(view);
-
-                BottomSheetBehavior bottomSheetBehavior = BottomSheetBehavior.from((View) view.getParent());
-                bottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
-
-                LinearLayout clearFiltersLayout = (LinearLayout)view.findViewById(R.id.clear_filters_layout);
-                clearFiltersLayout.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        dialog.hide();
-                    }
-                });
-
-                dialog.show();
+                FilterFragment filterFragment = new FilterFragment();
+                filterFragment.show(getSupportFragmentManager(), "Filter");
 
         }
         return false;
@@ -235,6 +218,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         };
         drawerLayout.addDrawerListener(actionBarDrawerToggle);
         actionBarDrawerToggle.syncState();
+    }
+
+    @Override
+    public void onFilterApplied(Bundle bundle) {
+
+        Log.d("BUNDLE", bundle.getString("Company"));
+        Log.d("BUNDLE", bundle.getString("Position"));
+        Log.d("BUNDLE", bundle.getString("Location"));
     }
 
 }
