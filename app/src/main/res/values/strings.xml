@@ -55,6 +55,7 @@
     <!--Strings for filters-->
     <string name="filter_cards">Filter Cards</string>
     <string name="enter_category">Enter Category</string>
+    <string name="enter_name">Enter Name</string>
     <string name="enter_company">Enter Company</string>
     <string name="enter_location">Enter Location</string>
     <string name="clear_filters">Clear Filters</string>

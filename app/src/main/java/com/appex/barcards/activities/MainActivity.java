@@ -36,13 +36,17 @@ import java.util.ArrayList;
 import io.realm.Realm;
 import io.realm.RealmResults;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener, FilterFragment.OnFilterAppliedListener {
+public class MainActivity extends AppCompatActivity implements View.OnClickListener, FilterFragment.OnFilterAppliedListener, FilterFragment.OnFilterClearedListener {
 
     CardAdapter cardAdapter;
     RecyclerView recyclerView;
     DrawerLayout drawerLayout;
     Toolbar toolbar;
     Boolean backPressed = false;
+    String company = "", name = "", location = "", category = "";
+    TextView noCardTextView ;
+    ArrayList<RealmCard> realmCards;
+    ArrayList<RealmCard> originalCards;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,13 +61,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         FloatingActionButton fabAddCard = (FloatingActionButton) findViewById(R.id.fab_add_card);
         FloatingActionButton fabScanQR = (FloatingActionButton) findViewById(R.id.fab_scan_qr);
         FloatingActionButton fabMyCards = (FloatingActionButton) findViewById(R.id.fab_mycards);
-        TextView noCardTextView = (TextView) findViewById(R.id.no_card_text_view);
+        noCardTextView = (TextView) findViewById(R.id.no_card_text_view);
         recyclerView = (RecyclerView) findViewById(R.id.card_recycler_view);
 
         Realm.init(getApplicationContext());
         Realm realm = Realm.getDefaultInstance();
         RealmResults<RealmCard> realmResults = realm.where(RealmCard.class).findAll();
-        ArrayList<RealmCard> realmCards = new ArrayList<>(realmResults.subList(0, realmResults.size()));
+        realmCards = new ArrayList<>(realmResults.subList(0, realmResults.size()));
+        originalCards = new ArrayList<>(realmResults.subList(0, realmResults.size()));
         if (realmCards.size() == 0) {
 
             noCardTextView.setVisibility(View.VISIBLE);
@@ -145,6 +150,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.filter_menu_item:
                 FilterFragment filterFragment = new FilterFragment();
                 filterFragment.show(getSupportFragmentManager(), "Filter");
+                Log.d("yo","yo");
 
         }
         return false;
@@ -221,11 +227,84 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     @Override
+    public void  onFilterCleared(){
+        for(int i =0;i<realmCards.size();i++)
+            realmCards.remove(i);
+        for (int i=0;i<originalCards.size();i++)
+            realmCards.add(originalCards.get(i));
+        cardAdapter.notifyDataSetChanged();
+    }
+    @Override
     public void onFilterApplied(Bundle bundle) {
+        boolean companyflag=false,nameflag=false,categoryflag=false,locationflag=false;
+        int countinner=0,countouter=0;
+        Log.d("com",bundle.getString("Company"));
+        Log.d("nam",bundle.getString("Name"));
+        Log.d("pos",bundle.getString("Position"));
+        Log.d("loc",bundle.getString("Location"));
+        company = bundle.getString("Company");
+        name = bundle.getString("Name");
+        category = bundle.getString("Position");
+        location = bundle.getString("Location");
 
-        Log.d("BUNDLE", bundle.getString("Company"));
-        Log.d("BUNDLE", bundle.getString("Position"));
-        Log.d("BUNDLE", bundle.getString("Location"));
+        if (company != null && company.length() != 0) {
+           companyflag=true;
+
+        }
+        if (name != null && name.length() != 0) {
+            nameflag=true;
+        }
+        if (category != null && category.length() != 0) {
+            categoryflag=true;
+        }
+        if (location != null && location.length() != 0) {
+            locationflag=true;
+        }
+
+
+        for (int i= 0;i<realmCards.size();i++) {
+            RealmCard card=realmCards.get(i);
+            if (companyflag) {
+                if (card.getCompany().equals( company))
+                    countinner++;
+                countouter++;
+            }
+            if (nameflag) {
+                if (card.getName().equals(name))
+                    countinner++;
+                countouter++;
+            }
+            if (categoryflag) {
+                if (card.getPosition().equals(category))
+                    countinner++;
+                countouter++;
+            }
+            if (locationflag) {
+                if (card.getAddLine1().equals(location) || card.getAddLine2().equals(location) || card.getAddLine3().equals(location))
+                    countinner++;
+                countouter++;
+            }
+            if (countinner != countouter ) {
+                realmCards.remove(i);
+
+            }
+            countinner = countouter = 0;
+        }
+
+
+
+        if (realmCards.size() == 0) {
+
+            noCardTextView.setVisibility(View.VISIBLE);
+            recyclerView.setVisibility(View.GONE);
+        }
+
+        cardAdapter.notifyDataSetChanged();
+
     }
 
+
 }
+
+
+

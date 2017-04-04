@@ -14,6 +14,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -22,15 +24,17 @@ import com.appex.barcards.activities.MainActivity;
 import com.appex.barcards.activities.MapsActivity;
 import com.appex.barcards.models.RealmCard;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder> {
+public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder>  {
 
     private static final int CALL_PERMISSION = 1;
     private String telno;
     private PermissionRequestResult permissionRequestResult;
+
 
     static class CardViewHolder extends RecyclerView.ViewHolder {
 
@@ -39,6 +43,7 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
         TextView addLine2TextView;
         CardView cardView;
         ImageView linkedInImageView, mapImageView;
+
         CardViewHolder(View view) {
 
             super(view);
@@ -86,7 +91,7 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
     }
 
     private void showPermissionDialog() {
-        ActivityCompat.requestPermissions((MainActivity)context, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, CALL_PERMISSION);
+        ActivityCompat.requestPermissions((MainActivity) context, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, CALL_PERMISSION);
     }
 
     @Override
@@ -153,17 +158,16 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
         return matcher.matches();
     }
 
-    private void callPhone(final String telno, View view){
+    private void callPhone(final String telno, View view) {
 
         this.permissionRequestResult = new PermissionRequestResult() {
             @Override
             public void onPermitted() {
                 Log.d("BLAH", "BLAH");
                 Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + telno));
-                try{
+                try {
                     context.startActivity(intent);
-                }
-                catch (SecurityException e){
+                } catch (SecurityException e) {
                     e.printStackTrace();
                 }
             }
@@ -172,9 +176,8 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
 
             Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + telno));
             context.startActivity(intent);
-        }
-        else {
-            if (ActivityCompat.shouldShowRequestPermissionRationale((MainActivity)context, Manifest.permission.WRITE_EXTERNAL_STORAGE))
+        } else {
+            if (ActivityCompat.shouldShowRequestPermissionRationale((MainActivity) context, Manifest.permission.WRITE_EXTERNAL_STORAGE))
                 showRationale(view);
             else {
                 showPermissionDialog();
@@ -185,4 +188,6 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
     private interface PermissionRequestResult {
         void onPermitted();
     }
+
+
 }
