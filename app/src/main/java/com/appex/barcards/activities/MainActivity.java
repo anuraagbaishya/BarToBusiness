@@ -100,6 +100,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             case R.id.fab_add_card:
                 startActivity(new Intent(getApplicationContext(), AddActivity.class));
+                overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
                 break;
 
             case R.id.fab_scan_qr:
@@ -113,6 +114,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             case R.id.fab_mycards:
                 startActivity(new Intent(getApplicationContext(), MyCardsActivity.class));
+                overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
                 break;
         }
     }
@@ -166,6 +168,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 //if qr contains data
                 String key = result.getContents();
                 startActivity(new Intent(getApplicationContext(), NewCardActivity.class).putExtra("Key", key));
+                overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
                 finish();
             }
         } else {
@@ -192,6 +195,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         break;
                     case R.id.about:
                         startActivity(new Intent(getApplicationContext(), AboutActivity.class));
+                        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
                         drawerLayout.closeDrawers();
                         break;
 

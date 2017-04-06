@@ -121,6 +121,7 @@ public class NewCardActivity extends AppCompatActivity {
                 intent.putExtra(ContactsContract.Intents.Insert.JOB_TITLE, card.getPosition());
                 String address = card.getAddLine1()+", "+card.getAddLine2()+", "+card.getAddLine3();
                 intent.putExtra(ContactsContract.Intents.Insert.POSTAL, address);
+                overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
                 startActivity(intent);
             }
         });
@@ -141,6 +142,7 @@ public class NewCardActivity extends AppCompatActivity {
 
     private void startMainActivity(){
 
+        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
         startActivity(new Intent(getApplicationContext(), MainActivity.class)
                 .putExtra("email", preferences.getString("email", "null"))
                 .putExtra("name", preferences.getString("name", "null"))

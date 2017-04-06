@@ -8,15 +8,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
-import android.widget.Filter;
 import android.widget.TextView;
 
 import com.appex.barcards.R;
 
 public class FilterFragment extends BottomSheetDialogFragment {
 
-    private OnFilterAppliedListener listener;
-    private OnFilterClearedListener listener1;
+    private OnFilterAppliedListener onFilterAppliedlistener;
+    private OnFilterClearedListener onFilterClearedListener;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,7 +38,7 @@ public class FilterFragment extends BottomSheetDialogFragment {
         clearFilterTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                listener1.onFilterCleared();
+                onFilterClearedListener.onFilterCleared();
                 FilterFragment.this.dismiss();
             }
         });
@@ -50,16 +50,18 @@ public class FilterFragment extends BottomSheetDialogFragment {
                 bundle.putString("Name", nameEditText.getText().toString());
                 bundle.putString("Position", categoryEditText.getText().toString());
                 bundle.putString("Location", locationEditText.getText().toString());
-                listener.onFilterApplied(bundle);
+                onFilterAppliedlistener.onFilterApplied(bundle);
                 FilterFragment.this.dismiss();
             }
         });
 
         return rootView;
     }
-    public  interface  OnFilterClearedListener {
+
+    public interface OnFilterClearedListener {
         void onFilterCleared();
     }
+
     public interface OnFilterAppliedListener {
 
         void onFilterApplied(Bundle bundle);
@@ -73,14 +75,14 @@ public class FilterFragment extends BottomSheetDialogFragment {
         if (context instanceof Activity)
             activity = (Activity) context;
         try {
-            listener = (OnFilterAppliedListener) activity;
+            onFilterAppliedlistener = (OnFilterAppliedListener) activity;
 
         } catch (final ClassCastException e) {
             throw new ClassCastException(activity.toString() + " must implement OnFilterAppliedListener");
         }
         try {
-            listener1 = (OnFilterClearedListener ) activity;
-        }catch (final  ClassCastException e){
+            onFilterClearedListener = (OnFilterClearedListener) activity;
+        } catch (final ClassCastException e) {
             throw new ClassCastException(activity.toString() + " must implement OnFilterClearedListener");
         }
 

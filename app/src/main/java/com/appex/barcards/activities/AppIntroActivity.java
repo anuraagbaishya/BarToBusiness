@@ -25,6 +25,7 @@ public class AppIntroActivity extends AppIntro {
     public void onDonePressed() {
 
         startActivity(new Intent(getApplicationContext(), LoginActivity.class));
+        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
         finish();
     }
 
@@ -33,6 +34,7 @@ public class AppIntroActivity extends AppIntro {
     public void onSkipPressed() {
 
         startActivity(new Intent(getApplicationContext(), LoginActivity.class));
+        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
         finish();
     }
 }

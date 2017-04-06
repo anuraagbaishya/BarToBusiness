@@ -123,6 +123,7 @@ public class LoginActivity extends AppCompatActivity {
         intent.putExtra("email", email);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
+        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
         finish();
     }
 

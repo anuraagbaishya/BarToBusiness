@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Bar Cards</string>
+    <string name="app_name">C\u00e9der</string>
     <string name="name">Name</string>
     <string name="position">Position</string>
     <string name="company">Company</string>

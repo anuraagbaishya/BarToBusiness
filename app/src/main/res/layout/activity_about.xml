@@ -2,13 +2,13 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_about"
+    android:background="@color/colorPrimary"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@android:color/white"
         android:orientation="vertical"
         tools:context="com.appex.barcards.activities.AboutActivity">
 
@@ -29,7 +29,7 @@
             android:gravity="center_vertical"
             android:padding="10dp"
             android:text="@string/version"
-            android:textColor="@color/colorPrimaryDark"
+            android:textColor="@color/colorAccent"
             android:textSize="17sp"
             android:textStyle="bold" />
 
@@ -48,7 +48,7 @@
             android:gravity="center_vertical"
             android:padding="10dp"
             android:text="@string/connect"
-            android:textColor="@color/colorPrimaryDark"
+            android:textColor="@color/colorAccent"
             android:textSize="17sp"
             android:textStyle="bold" />
 
@@ -57,12 +57,12 @@
             android:layout_height="wrap_content"
             android:drawableLeft="@drawable/ic_email_black_24dp"
             android:drawablePadding="5dp"
-            android:drawableTint="@color/colorPrimaryDark"
+            android:drawableTint="@color/colorAccent"
             android:fontFamily="sans-serif-condensed"
             android:gravity="center_vertical"
             android:padding="10dp"
             android:text="@string/email_about"
-            android:textColor="@color/colorPrimaryDark"
+            android:textColor="@color/colorAccent"
             android:textSize="17sp" />
 
         <View
@@ -77,12 +77,12 @@
             android:layout_height="wrap_content"
             android:drawableLeft="@drawable/ic_web"
             android:drawablePadding="5dp"
-            android:drawableTint="@color/colorPrimaryDark"
+            android:drawableTint="@color/colorAccent"
             android:fontFamily="sans-serif-condensed"
             android:gravity="center_vertical"
             android:padding="10dp"
             android:text="@string/web_about"
-            android:textColor="@color/colorPrimaryDark"
+            android:textColor="@color/colorAccent"
             android:textSize="17sp" />
 
         <View
@@ -97,12 +97,12 @@
             android:layout_height="wrap_content"
             android:drawableLeft="@drawable/ic_fb"
             android:drawablePadding="5dp"
-            android:drawableTint="@color/colorPrimaryDark"
+            android:drawableTint="@color/colorAccent"
             android:fontFamily="sans-serif-condensed"
             android:gravity="center_vertical"
             android:padding="10dp"
             android:text="@string/fb_about"
-            android:textColor="@color/colorPrimaryDark"
+            android:textColor="@color/colorAccent"
             android:textSize="17sp" />
 
         <View
@@ -117,18 +117,18 @@
             android:layout_height="wrap_content"
             android:drawableLeft="@drawable/ic_play"
             android:drawablePadding="5dp"
-            android:drawableTint="@color/colorPrimaryDark"
+            android:drawableTint="@color/colorAccent"
             android:fontFamily="sans-serif-condensed"
             android:gravity="center_vertical"
             android:padding="10dp"
             android:text="@string/play_about"
-            android:textColor="@color/colorPrimaryDark"
+            android:textColor="@color/colorAccent"
             android:textSize="17sp" />
         <Button
             android:id="@+id/license_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/colorPrimaryDark"
+            android:background="@color/colorAccent"
             android:layout_margin="5dp"
             android:text="@string/view_licence"
             android:textColor="@color/white"/>
