@@ -23,6 +23,7 @@ import android.widget.Toast;
 import com.appex.barcards.R;
 import com.appex.barcards.adapters.CardAdapter;
 import com.appex.barcards.fragments.FilterFragment;
+import com.appex.barcards.fragments.HelpFragment;
 import com.appex.barcards.models.RealmCard;
 import com.appex.barcards.utils.CircleTransform;
 import com.github.clans.fab.FloatingActionButton;
@@ -186,12 +187,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 int id = menuItem.getItemId();
 
                 switch (id) {
-                    case R.id.settings:
-                        Toast.makeText(getApplicationContext(), "Home", Toast.LENGTH_SHORT).show();
-                        drawerLayout.closeDrawers();
-                        break;
+//                    case R.id.settings:
+//                        Toast.makeText(getApplicationContext(), "Home", Toast.LENGTH_SHORT).show();
+//                        drawerLayout.closeDrawers();
+//                        break;
                     case R.id.help:
-                        Toast.makeText(getApplicationContext(), "Settings", Toast.LENGTH_SHORT).show();
+                        HelpFragment helpFragment = new HelpFragment();
+                        helpFragment.show(getSupportFragmentManager(), "help");
                         break;
                     case R.id.about:
                         startActivity(new Intent(getApplicationContext(), AboutActivity.class));
