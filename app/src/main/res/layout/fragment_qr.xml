@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.appex.barcards.fragments.QRFragment">
+    tools:context="com.ceder.android.fragments.QRFragment">
 
     <ImageView
         android:layout_width="350dp"

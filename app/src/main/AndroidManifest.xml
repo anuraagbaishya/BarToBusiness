@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.appex.barcards">
+    package="com.ceder.android">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -23,7 +23,7 @@
     <uses-permission android:name="android.permission.CALL_PHONE" />
 
     <application
-        android:name=".application.InitApplication"
+        android:name="com.ceder.android.application.InitApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -33,16 +33,17 @@
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id" />
 
-        <activity android:name=".activities.AddActivity" />
+        <activity android:name="com.ceder.android.activities.AddActivity" />
         <activity
-            android:name=".activities.MainActivity"
+            android:name="com.ceder.android.activities.MainActivity"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".activities.NewCardActivity" />
+        <activity android:name="com.ceder.android.activities.NewCardActivity" />
         <activity
             android:name="com.journeyapps.barcodescanner.CaptureActivity"
             android:screenOrientation="fullSensor"
             tools:replace="screenOrientation" />
-        <activity android:name=".activities.MyCardsActivity" />
+
+        <activity android:name="com.ceder.android.activities.MyCardsActivity" />
         <activity
             android:name="com.facebook.FacebookActivity"
             android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
@@ -60,15 +61,16 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".activities.LoginActivity"
+
+            android:name="com.ceder.android.activities.LoginActivity"
             android:theme="@style/AppTheme.NoActionBar"
             android:label="@string/app_name" />
         <activity
-            android:name=".activities.AboutActivity"
+            android:name="com.ceder.android.activities.AboutActivity"
             android:theme="@style/AppTheme.NoActionBar"
             android:label="@string/app_name" />
         <activity
-            android:name=".activities.SplashActivity"
+            android:name="com.ceder.android.activities.SplashActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -89,14 +91,14 @@
             android:value="@string/google_maps_key" />
 
         <activity
-            android:name=".activities.MapsActivity"
+            android:name="com.ceder.android.activities.MapsActivity"
             android:label="@string/title_activity_maps" />
 
         <meta-data
             android:name="io.fabric.ApiKey"
             android:value="e6d7c4441f03805dc38f6226eb13de9524837676" />
 
-        <activity android:name=".activities.AppIntroActivity" />
+        <activity android:name="com.ceder.android.activities.AppIntroActivity" />
 
     </application>
 
