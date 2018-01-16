@@ -8,4 +8,13 @@
         android:orderInCategory="100"
         app:showAsAction="always"/>
 
+    <item
+        android:id="@+id/help"
+        android:title="@string/help"
+        android:icon="@drawable/ic_help_black_24dp"/>
+    <item
+        android:id="@+id/about"
+        android:title="@string/about"
+        android:icon="@drawable/ic_info_outline_black_24dp"/>
+
 </menu>

@@ -2,6 +2,7 @@ package com.ceder.android.activities;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -13,20 +14,25 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.annotation.NonNull;
+import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputEditText;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ScrollView;
 import android.widget.Toast;
 
 import com.ceder.android.R;
 import com.ceder.android.fragments.QRFragment;
 import com.ceder.android.models.Card;
+import com.ceder.android.utils.CircleTransform;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DatabaseReference;
@@ -38,6 +44,9 @@ import com.google.zxing.BarcodeFormat;
 import com.google.zxing.MultiFormatWriter;
 import com.google.zxing.WriterException;
 import com.google.zxing.common.BitMatrix;
+import com.google.zxing.integration.android.IntentIntegrator;
+import com.google.zxing.integration.android.IntentResult;
+import com.squareup.picasso.Picasso;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -71,6 +80,20 @@ public class AddActivity extends AppCompatActivity {
         FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
         final DatabaseReference databaseReference = firebaseDatabase.getReference();
 
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setElevation(8.0f);
+        ImageView toolbarImageView = (ImageView) findViewById(R.id.toolbar_image_view);
+        String imageURL = "https://graph.facebook.com/" + getIntent().getStringExtra("userid") + "/picture?width=1200";
+        Picasso.with(getApplicationContext()).load(imageURL).transform(new CircleTransform()).into(toolbarImageView);
+        toolbarImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(getApplicationContext(), ProfileActivity.class));
+                finish();
+            }
+        });
+
         addButton = (Button) findViewById(R.id.button);
         nameEditText = (TextInputEditText) findViewById(R.id.name_edit_text);
         positionEditText = (TextInputEditText) findViewById(R.id.position_edit_text);
@@ -81,11 +104,44 @@ public class AddActivity extends AppCompatActivity {
         addLine2EditText = (TextInputEditText) findViewById(R.id.add_line2_edit_text);
         addLine3EditText = (TextInputEditText) findViewById(R.id.add_line3_edit_text);
         linkedinEditText = (TextInputEditText) findViewById(R.id.linkedin_edit_text);
-        scrollView = (ScrollView) findViewById(R.id.main_activity_scroll_view);
+        scrollView = (ScrollView) findViewById(R.id.add_activity_scroll_view);
 
         progressDialog = new ProgressDialog(this);
         progressDialog.setMessage("Adding to DataBase");
         progressDialog.setCancelable(false);
+
+        BottomNavigationView bottomNavigationView = (BottomNavigationView)
+                findViewById(R.id.bottom_navigation_view);
+        bottomNavigationView.setSelectedItemId(R.id.action_new_card);
+        Log.d("Bottom Nav ID", Integer.toString(bottomNavigationView.getSelectedItemId()));
+        bottomNavigationView.setOnNavigationItemSelectedListener(
+                new BottomNavigationView.OnNavigationItemSelectedListener() {
+                    @Override
+                    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                        switch (item.getItemId()) {
+
+                            case R.id.action_view_cards:
+                                startActivity(new Intent(getApplicationContext(), MainActivity.class)
+                                    .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
+                                overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+                                return true;
+
+                            case R.id.action_scan_qr:
+                                IntentIntegrator intentIntegrator = new IntentIntegrator(AddActivity.this);
+                                intentIntegrator.setDesiredBarcodeFormats(IntentIntegrator.QR_CODE_TYPES);
+                                intentIntegrator.setBarcodeImageEnabled(true);
+                                intentIntegrator.setOrientationLocked(true);
+                                intentIntegrator.setBeepEnabled(false);
+                                intentIntegrator.initiateScan();
+                                return true;
+
+                            case R.id.action_new_card:
+                                return true;
+                        }
+                        return false;
+                    }
+                }
+        );
 
         outputStream = new ByteArrayOutputStream();
 
@@ -145,6 +201,24 @@ public class AddActivity extends AppCompatActivity {
                     writeToStorage(bitmap, key);
             }
         });
+    }
+
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
+        if (result != null) {
+            //if qrcode has nothing in it
+            if (result.getContents() == null) {
+                Toast.makeText(this, "Result Not Found", Toast.LENGTH_LONG).show();
+            } else {
+                //if qr contains data
+                String key = result.getContents();
+                startActivity(new Intent(getApplicationContext(), NewCardActivity.class).putExtra("Key", key));
+                overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+                finish();
+            }
+        } else {
+            super.onActivityResult(requestCode, resultCode, data);
+        }
     }
 
     public boolean isInternetConnected() {

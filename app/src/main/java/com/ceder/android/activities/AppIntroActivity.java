@@ -15,9 +15,9 @@ public class AppIntroActivity extends AppIntro {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        addSlide(AppIntroFragment.newInstance(Strings.addTitle, Strings.addDesc, R.drawable.add, ResourcesCompat.getColor(getResources(), R.color.colorPrimary, null)));
-        addSlide(AppIntroFragment.newInstance(Strings.scanTitle, Strings.scanDesc, R.drawable.scan, ResourcesCompat.getColor(getResources(), R.color.colorPrimary, null)));
-        addSlide(AppIntroFragment.newInstance(Strings.manageTitle, Strings.manageDesc, R.drawable.connect, ResourcesCompat.getColor(getResources(), R.color.colorPrimary, null)));
+        addSlide(AppIntroFragment.newInstance(Strings.addTitle, Strings.addDesc, R.drawable.add, ResourcesCompat.getColor(getResources(), R.color.colorAccent, null)));
+        addSlide(AppIntroFragment.newInstance(Strings.scanTitle, Strings.scanDesc, R.drawable.scan, ResourcesCompat.getColor(getResources(), R.color.colorAccent, null)));
+        addSlide(AppIntroFragment.newInstance(Strings.manageTitle, Strings.manageDesc, R.drawable.connect, ResourcesCompat.getColor(getResources(), R.color.colorAccent, null)));
     }
 
     @SuppressWarnings("deprecation")

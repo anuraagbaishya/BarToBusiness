@@ -56,7 +56,7 @@ public class LoginActivity extends AppCompatActivity {
 
         }
 
-        preferences = getSharedPreferences("com.appex.bartobusiness", MODE_PRIVATE);
+        preferences = getSharedPreferences("com.ceder.android", MODE_PRIVATE);
 
         if (isLoggedIn())
             startMainActivity(preferences.getString("email", "Null"));
@@ -117,6 +117,7 @@ public class LoginActivity extends AppCompatActivity {
         Profile profile = Profile.getCurrentProfile();
         preferences.edit().putString("name",profile.getName()).apply();
         preferences.edit().putString("userid", profile.getId()).apply();
+        preferences.edit().putString("email", email).apply();
         Intent intent = new Intent(this, MainActivity.class);
         intent.putExtra("userid", profile.getId());
         intent.putExtra("name", profile.getName());

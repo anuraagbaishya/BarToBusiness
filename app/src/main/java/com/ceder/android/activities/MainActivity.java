@@ -2,14 +2,10 @@ package com.ceder.android.activities;
 
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
-import android.support.design.widget.NavigationView;
-import android.support.v4.content.ContextCompat;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -20,7 +16,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.TextView;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.ceder.android.R;
@@ -29,8 +25,6 @@ import com.ceder.android.fragments.FilterFragment;
 import com.ceder.android.fragments.HelpFragment;
 import com.ceder.android.models.RealmCard;
 import com.ceder.android.utils.CircleTransform;
-import com.github.clans.fab.FloatingActionButton;
-import com.github.clans.fab.FloatingActionMenu;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 import com.squareup.picasso.Picasso;
@@ -42,17 +36,17 @@ import io.realm.RealmResults;
 
 import static com.ceder.android.activities.AddActivity.WRITE_PERMISSION;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener, FilterFragment.OnFilterAppliedListener, FilterFragment.OnFilterClearedListener {
+public class MainActivity extends AppCompatActivity implements FilterFragment.OnFilterAppliedListener, FilterFragment.OnFilterClearedListener {
 
     CardAdapter cardAdapter;
     RecyclerView recyclerView;
-    DrawerLayout drawerLayout;
     Toolbar toolbar;
     Boolean backPressed = false;
     String company = "", name = "", location = "", category = "";
-    TextView noCardTextView ;
+    LinearLayout noCardLayout;
     ArrayList<RealmCard> realmCards;
     ArrayList<RealmCard> originalCards;
+    BottomNavigationView bottomNavigationView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,14 +55,49 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        initNavigationDrawer();
-
-        FloatingActionMenu fabMenu = (FloatingActionMenu) findViewById(R.id.fab_menu);
-        FloatingActionButton fabAddCard = (FloatingActionButton) findViewById(R.id.fab_add_card);
-        FloatingActionButton fabScanQR = (FloatingActionButton) findViewById(R.id.fab_scan_qr);
-        FloatingActionButton fabMyCards = (FloatingActionButton) findViewById(R.id.fab_mycards);
-        noCardTextView = (TextView) findViewById(R.id.no_card_text_view);
+        getSupportActionBar().setElevation(8.0f);
+        ImageView toolbarImageView = (ImageView) findViewById(R.id.toolbar_image_view);
+        String imageURL = "https://graph.facebook.com/" + getIntent().getStringExtra("userid") + "/picture?width=1200";
+        Picasso.with(getApplicationContext()).load(imageURL).transform(new CircleTransform()).into(toolbarImageView);
+        toolbarImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(getApplicationContext(), ProfileActivity.class));
+            }
+        });
+        noCardLayout = (LinearLayout) findViewById(R.id.no_card_layout);
         recyclerView = (RecyclerView) findViewById(R.id.card_recycler_view);
+
+        bottomNavigationView = (BottomNavigationView)
+                findViewById(R.id.bottom_navigation_view);
+        bottomNavigationView.setSelectedItemId(R.id.action_view_cards);
+        bottomNavigationView.setOnNavigationItemSelectedListener(
+                new BottomNavigationView.OnNavigationItemSelectedListener() {
+                    @Override
+                    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                        switch (item.getItemId()) {
+
+                            case R.id.action_view_cards:
+                                return true;
+
+                            case R.id.action_scan_qr:
+                                IntentIntegrator intentIntegrator = new IntentIntegrator(MainActivity.this);
+                                intentIntegrator.setDesiredBarcodeFormats(IntentIntegrator.QR_CODE_TYPES);
+                                intentIntegrator.setBarcodeImageEnabled(true);
+                                intentIntegrator.setOrientationLocked(true);
+                                intentIntegrator.setBeepEnabled(false);
+                                intentIntegrator.initiateScan();
+                                return true;
+
+                            case R.id.action_new_card:
+                                startActivity(new Intent(getApplicationContext(), AddActivity.class));
+                                overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+                                return true;
+                        }
+                        return false;
+                    }
+                }
+        );
 
         Realm.init(getApplicationContext());
         Realm realm = Realm.getDefaultInstance();
@@ -77,7 +106,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         originalCards = new ArrayList<>(realmResults.subList(0, realmResults.size()));
         if (realmCards.size() == 0) {
 
-            noCardTextView.setVisibility(View.VISIBLE);
+            noCardLayout.setVisibility(View.VISIBLE);
             recyclerView.setVisibility(View.GONE);
         }
 
@@ -86,43 +115,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setAdapter(cardAdapter);
-
-        fabMenu.setClosedOnTouchOutside(true);
-        fabMenu.hideMenuButton(false);
-        fabMenu.showMenuButton(true);
-
-        fabAddCard.setOnClickListener(this);
-        fabScanQR.setOnClickListener(this);
-        fabMyCards.setOnClickListener(this);
-
-        Log.d("ID", getIntent().getStringExtra("userid"));
-        Log.d("Name", getIntent().getStringExtra("name"));
-    }
-
-    @Override
-    public void onClick(View v) {
-
-        switch (v.getId()) {
-
-            case R.id.fab_add_card:
-                startActivity(new Intent(getApplicationContext(), AddActivity.class));
-                overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
-                break;
-
-            case R.id.fab_scan_qr:
-                IntentIntegrator intentIntegrator = new IntentIntegrator(this);
-                intentIntegrator.setDesiredBarcodeFormats(IntentIntegrator.QR_CODE_TYPES);
-                intentIntegrator.setBarcodeImageEnabled(true);
-                intentIntegrator.setOrientationLocked(true);
-                intentIntegrator.setBeepEnabled(false);
-                intentIntegrator.initiateScan();
-                break;
-
-            case R.id.fab_mycards:
-                startActivity(new Intent(getApplicationContext(), MyCardsActivity.class));
-                overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
-                break;
-        }
     }
 
     @Override
@@ -158,7 +150,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.filter_menu_item:
                 FilterFragment filterFragment = new FilterFragment();
                 filterFragment.show(getSupportFragmentManager(), "Filter");
-
+                break;
+            case R.id.help:
+                HelpFragment helpFragment = new HelpFragment();
+                helpFragment.show(getSupportFragmentManager(), "help");
+                break;
+            case R.id.about:
+                startActivity(new Intent(getApplicationContext(), AboutActivity.class));
+                overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+                break;
         }
         return false;
     }
@@ -181,101 +181,47 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
-    public void initNavigationDrawer() {
-
-        NavigationView navigationView = (NavigationView) findViewById(R.id.navigation_view);
-        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-
-                int id = menuItem.getItemId();
-
-                switch (id) {
-//                    case R.id.settings:
-//                        Toast.makeText(getApplicationContext(), "Home", Toast.LENGTH_SHORT).show();
-//                        drawerLayout.closeDrawers();
-//                        break;
-                    case R.id.help:
-                        HelpFragment helpFragment = new HelpFragment();
-                        helpFragment.show(getSupportFragmentManager(), "help");
-                        break;
-                    case R.id.about:
-                        startActivity(new Intent(getApplicationContext(), AboutActivity.class));
-                        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
-                        drawerLayout.closeDrawers();
-                        break;
-
-                }
-                return true;
-            }
-        });
-        View header = navigationView.getHeaderView(0);
-        TextView navNameTextView = (TextView) header.findViewById(R.id.name_nav_text_view);
-        TextView navEmailTextView = (TextView) header.findViewById(R.id.email_nav_text_view);
-        ImageView navProfileImageView = (ImageView) header.findViewById(R.id.nav_profile_image_view);
-        navNameTextView.setText(getIntent().getStringExtra("name"));
-        navEmailTextView.setText(getIntent().getStringExtra("email"));
-        drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-
-        String imageURL = "https://graph.facebook.com/" + getIntent().getStringExtra("userid") + "/picture?width=1200";
-        Picasso.with(getApplicationContext()).load(imageURL).transform(new CircleTransform()).into(navProfileImageView);
-
-        ActionBarDrawerToggle actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.drawer_open, R.string.drawer_close) {
-
-            @Override
-            public void onDrawerClosed(View v) {
-                super.onDrawerClosed(v);
-            }
-
-            @Override
-            public void onDrawerOpened(View v) {
-                super.onDrawerOpened(v);
-            }
-        };
-        drawerLayout.addDrawerListener(actionBarDrawerToggle);
-        actionBarDrawerToggle.syncState();
-    }
-
     @Override
-    public void  onFilterCleared(){
-        for(int i =0;i<realmCards.size();i++)
+    public void onFilterCleared() {
+        for (int i = 0; i < realmCards.size(); i++)
             realmCards.remove(i);
-        for (int i=0;i<originalCards.size();i++)
+        for (int i = 0; i < originalCards.size(); i++)
             realmCards.add(originalCards.get(i));
         cardAdapter.notifyDataSetChanged();
     }
+
     @Override
     public void onFilterApplied(Bundle bundle) {
-        boolean companyflag=false,nameflag=false,categoryflag=false,locationflag=false;
-        int countinner=0,countouter=0;
-        Log.d("com",bundle.getString("Company"));
-        Log.d("nam",bundle.getString("Name"));
-        Log.d("pos",bundle.getString("Position"));
-        Log.d("loc",bundle.getString("Location"));
+        boolean companyflag = false, nameflag = false, categoryflag = false, locationflag = false;
+        int countinner = 0, countouter = 0;
+        Log.d("com", bundle.getString("Company"));
+        Log.d("nam", bundle.getString("Name"));
+        Log.d("pos", bundle.getString("Position"));
+        Log.d("loc", bundle.getString("Location"));
         company = bundle.getString("Company");
         name = bundle.getString("Name");
         category = bundle.getString("Position");
         location = bundle.getString("Location");
 
         if (company != null && company.length() != 0) {
-           companyflag=true;
+            companyflag = true;
 
         }
         if (name != null && name.length() != 0) {
-            nameflag=true;
+            nameflag = true;
         }
         if (category != null && category.length() != 0) {
-            categoryflag=true;
+            categoryflag = true;
         }
         if (location != null && location.length() != 0) {
-            locationflag=true;
+            locationflag = true;
         }
 
 
-        for (int i= 0;i<realmCards.size();i++) {
-            RealmCard card=realmCards.get(i);
+        for (int i = 0; i < realmCards.size(); i++) {
+            RealmCard card = realmCards.get(i);
             if (companyflag) {
-                if (card.getCompany().equals( company))
+                if (card.getCompany().equals(company))
                     countinner++;
                 countouter++;
             }
@@ -294,7 +240,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     countinner++;
                 countouter++;
             }
-            if (countinner != countouter ) {
+            if (countinner != countouter) {
                 realmCards.remove(i);
 
             }
@@ -302,10 +248,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
 
 
-
         if (realmCards.size() == 0) {
 
-            noCardTextView.setVisibility(View.VISIBLE);
+            noCardLayout.setVisibility(View.VISIBLE);
             recyclerView.setVisibility(View.GONE);
         }
 
@@ -330,7 +275,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
-
+    @Override
+    public void onResume(){
+        super.onResume();
+        bottomNavigationView.setSelectedItemId(R.id.action_view_cards);
+    }
 }
 
 
