@@ -12,15 +12,6 @@
         android:orientation="vertical"
         tools:context="com.ceder.android.activities.AboutActivity">
 
-        <ImageView
-            android:id="@+id/logo_image_view"
-            android:layout_width="400dp"
-            android:layout_height="400dp"
-            android:layout_gravity="center"
-            android:contentDescription="@null"
-            android:padding="10dp"
-            android:src="@drawable/splash" />
-
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -128,7 +119,7 @@
             android:id="@+id/license_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/colorPrimaryDark"
+            android:background="@color/colorAccent"
             android:layout_margin="5dp"
             android:text="@string/view_licence"
             android:textColor="@color/white"/>

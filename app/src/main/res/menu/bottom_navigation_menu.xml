@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/action_scan_qr"
+        android:enabled="true"
+        android:icon="@drawable/ic_camera"
+        android:title="@string/scan_qr"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/action_view_cards"
+        android:enabled="true"
+        android:icon="@drawable/ic_credit_card_white_24dp"
+        android:title="@string/view_cards"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/action_new_card"
+        android:enabled="true"
+        android:icon="@drawable/ic_add_white_36dp"
+        android:title="@string/new_card"
+        app:showAsAction="ifRoom" />
+
+</menu>

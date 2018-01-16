@@ -16,14 +16,14 @@
     <!--
          The ACCESS_COARSE/FINE_LOCATION permissions are not required to use
          Google Maps Android API v2, but you must specify either coarse or fine
-         location permissions for the 'MyLocation' functionality. 
+         location permissions for the 'MyLocation' functionality.
     -->
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.CALL_PHONE" />
 
     <application
-        android:name="com.ceder.android.application.InitApplication"
+        android:name=".application.InitApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -33,17 +33,18 @@
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id" />
 
-        <activity android:name="com.ceder.android.activities.AddActivity" />
         <activity
-            android:name="com.ceder.android.activities.MainActivity"
+            android:name=".activities.AddActivity"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name="com.ceder.android.activities.NewCardActivity" />
+        <activity
+            android:name=".activities.MainActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".activities.NewCardActivity" />
         <activity
             android:name="com.journeyapps.barcodescanner.CaptureActivity"
             android:screenOrientation="fullSensor"
             tools:replace="screenOrientation" />
-
-        <activity android:name="com.ceder.android.activities.MyCardsActivity" />
+        <activity android:name="com.ceder.android.activities.ProfileActivity" />
         <activity
             android:name="com.facebook.FacebookActivity"
             android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
@@ -61,16 +62,15 @@
             </intent-filter>
         </activity>
         <activity
-
-            android:name="com.ceder.android.activities.LoginActivity"
-            android:theme="@style/AppTheme.NoActionBar"
-            android:label="@string/app_name" />
+            android:name=".activities.LoginActivity"
+            android:label="@string/app_name"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name="com.ceder.android.activities.AboutActivity"
-            android:theme="@style/AppTheme.NoActionBar"
-            android:label="@string/app_name" />
+            android:name=".activities.AboutActivity"
+            android:label="@string/app_name"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name="com.ceder.android.activities.SplashActivity"
+            android:name=".activities.SplashActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -84,22 +84,21 @@
              Note that the API key is linked to the encryption key used to sign the APK.
              You need a different API key for each encryption key, including the release key that is used to
              sign the APK for publishing.
-             You can define the keys for the debug and release targets in src/debug/ and src/release/. 
+             You can define the keys for the debug and release targets in src/debug/ and src/release/.
         -->
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
 
         <activity
-            android:name="com.ceder.android.activities.MapsActivity"
+            android:name=".activities.MapsActivity"
             android:label="@string/title_activity_maps" />
 
         <meta-data
             android:name="io.fabric.ApiKey"
             android:value="e6d7c4441f03805dc38f6226eb13de9524837676" />
 
-        <activity android:name="com.ceder.android.activities.AppIntroActivity" />
-
+        <activity android:name=".activities.AppIntroActivity" />
     </application>
 
 </manifest>

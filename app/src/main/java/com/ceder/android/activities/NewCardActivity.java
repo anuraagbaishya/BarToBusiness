@@ -55,7 +55,7 @@ public class NewCardActivity extends AppCompatActivity {
         saveButton = (Button) findViewById(R.id.save_button);
         viewCardsButton = (Button) findViewById(R.id.view_card_button);
 
-        preferences = getSharedPreferences("com.appex.bartobusiness", MODE_PRIVATE);
+        preferences = getSharedPreferences("com.ceder.android", MODE_PRIVATE);
         progressDialog = new ProgressDialog(this);
         progressDialog.setMessage("Reading Data");
         progressDialog.setCancelable(false);

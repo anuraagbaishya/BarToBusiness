@@ -1,6 +1,7 @@
 package com.ceder.android.activities;
 
 import android.app.ProgressDialog;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -14,17 +15,19 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.LinearSnapHelper;
 import android.support.v7.widget.RecyclerView;
-import android.util.DisplayMetrics;
+import android.support.v7.widget.SnapHelper;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ceder.android.R;
 import com.ceder.android.adapters.MyCardAdapter;
 import com.ceder.android.models.MyCard;
+import com.ceder.android.utils.CircleTransform;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -43,7 +46,7 @@ import java.util.Comparator;
 
 import static com.ceder.android.activities.AddActivity.WRITE_PERMISSION;
 
-public class MyCardsActivity extends AppCompatActivity {
+public class ProfileActivity extends AppCompatActivity {
 
     ArrayList<MyCard> myCards = new ArrayList<>();
     File[] listFile = new File[10];
@@ -51,15 +54,16 @@ public class MyCardsActivity extends AppCompatActivity {
     MyCardAdapter myCardAdapter;
     SwipeRefreshLayout swipeRefreshLayout;
     TextView noCardTextView;
+    SharedPreferences preferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_my_cards);
+        setContentView(R.layout.activity_profile);
         swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_refresh_layout);
         noCardTextView = (TextView) findViewById(R.id.no_card_text_view);
         if (Build.VERSION.SDK_INT >= 23) {
-            if (ContextCompat.checkSelfPermission(MyCardsActivity.this, android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
+            if (ContextCompat.checkSelfPermission(ProfileActivity.this, android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
                     != PackageManager.PERMISSION_GRANTED) {
 
                 requestPermissions(new String[]{android.Manifest.permission.WRITE_EXTERNAL_STORAGE}, WRITE_PERMISSION);
@@ -68,6 +72,15 @@ public class MyCardsActivity extends AppCompatActivity {
         } else
             display();
 
+        preferences = getSharedPreferences("com.ceder.android", MODE_PRIVATE);
+        TextView nameTextView = (TextView) findViewById(R.id.name_text_view);
+        TextView emailTextView = (TextView) findViewById(R.id.email_text_view);
+        nameTextView.setText(preferences.getString("name", null));
+        emailTextView.setText(preferences.getString("email", null));
+
+        ImageView profileImageView = (ImageView) findViewById(R.id.profile_image_view);
+        String imageURL = "https://graph.facebook.com/" + preferences.getString("userid", null) + "/picture?width=1200";
+        Picasso.with(getApplicationContext()).load(imageURL).into(profileImageView);
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -108,17 +121,19 @@ public class MyCardsActivity extends AppCompatActivity {
         @Override
         public Void doInBackground(Void... params) {
 
+            preferences = getSharedPreferences("com.ceder.android", MODE_PRIVATE);
+            String userId = preferences.getString("userid", null);
             final ArrayList<String> urlList = new ArrayList<>();
             FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
             DatabaseReference databaseReference = firebaseDatabase.getReference();
             databaseReference.keepSynced(true);
-            databaseReference.child("urls").addListenerForSingleValueEvent(new ValueEventListener() {
+            databaseReference.child("urls").child(userId).addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
-                    for (DataSnapshot snapshot : dataSnapshot.getChildren())
-                        for (DataSnapshot urlSnapshot : snapshot.getChildren()) {
-                            urlList.add(urlSnapshot.getValue(String.class));
-                        }
+                    for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                        Log.d("URL", snapshot.getValue().toString());
+                        urlList.add(snapshot.getValue(String.class));
+                    }
                     imageDownload(urlList);
                 }
 
@@ -133,11 +148,9 @@ public class MyCardsActivity extends AppCompatActivity {
 
     private void imageDownload(ArrayList<String> urlList) {
 
-        for (String str : urlList) {
-            Log.d("url", str.substring(str.lastIndexOf("-", str.indexOf(".PNG")), str.indexOf(".PNG")));
+        for (String str : urlList)
             Picasso.with(getApplicationContext()).load(str).into(getTarget(str.substring(str.lastIndexOf("-", str.indexOf(".PNG")), str.indexOf(".PNG"))));
 
-        }
         display();
 
     }
@@ -208,10 +221,12 @@ public class MyCardsActivity extends AppCompatActivity {
             noCardTextView.setVisibility(View.GONE);
             recyclerView.setVisibility(View.VISIBLE);
         }
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext());
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.HORIZONTAL, false);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setAdapter(myCardAdapter);
+        SnapHelper snapHelper = new LinearSnapHelper();
+        snapHelper.attachToRecyclerView(recyclerView);
     }
 
     @Override
@@ -228,7 +243,7 @@ public class MyCardsActivity extends AppCompatActivity {
 
                     display();
                 } else
-                    Toast.makeText(MyCardsActivity.this, "Cannot Save", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ProfileActivity.this, "Cannot Save", Toast.LENGTH_SHORT).show();
         }
 
     }

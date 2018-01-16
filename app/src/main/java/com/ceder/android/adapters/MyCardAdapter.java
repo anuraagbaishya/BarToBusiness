@@ -1,5 +1,6 @@
 package com.ceder.android.adapters;
 
+import android.content.res.Resources;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +13,7 @@ import com.ceder.android.R;
 import com.ceder.android.models.MyCard;
 
 import java.util.List;
+import java.util.ResourceBundle;
 
 public class MyCardAdapter extends RecyclerView.Adapter<MyCardAdapter.MyCardViewHolder> {
 
@@ -20,7 +22,7 @@ public class MyCardAdapter extends RecyclerView.Adapter<MyCardAdapter.MyCardView
         LinearLayout linearLayout;
         LinearLayout smallLayout;
         ImageView qrImageView;
-        ImageView qrImageViewLarge;
+        TextView counterTextView;
         TextView nameTextView;
 
         MyCardViewHolder(View view){
@@ -29,22 +31,8 @@ public class MyCardAdapter extends RecyclerView.Adapter<MyCardAdapter.MyCardView
             linearLayout = (LinearLayout) view.findViewById(R.id.my_card_layout);
             smallLayout = (LinearLayout) view.findViewById(R.id.small_layout);
             qrImageView = (ImageView) view.findViewById(R.id.myqr_image_view);
-            qrImageViewLarge = (ImageView) view.findViewById(R.id.myqr_image_view_large);
             nameTextView = (TextView) view.findViewById(R.id.my_name_text_view);
-            smallLayout.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    qrImageViewLarge.setVisibility(View.VISIBLE);
-                    smallLayout.setVisibility(View.GONE);
-                }
-            });
-            qrImageViewLarge.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    smallLayout.setVisibility(View.VISIBLE);
-                    qrImageViewLarge.setVisibility(View.GONE);
-                }
-            });
+            counterTextView = (TextView) view.findViewById(R.id.counter_text_view);
         }
     }
 
@@ -63,10 +51,11 @@ public class MyCardAdapter extends RecyclerView.Adapter<MyCardAdapter.MyCardView
     @Override
     public void onBindViewHolder(MyCardViewHolder holder, int position){
 
+        Resources res = holder.itemView.getContext().getResources();
         MyCard myCard = myCards.get(position);
         holder.qrImageView.setImageBitmap(myCard.getQrBitmap());
-        holder.qrImageViewLarge.setImageBitmap(myCard.getQrBitmap());
         holder.nameTextView.setText(myCard.getName());
+        holder.counterTextView.setText(res.getString(R.string.counter, position+1, getItemCount()));
 
     }
 
