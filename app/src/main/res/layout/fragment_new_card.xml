@@ -2,7 +2,7 @@
 <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/card_list_item"
+    android:id="@+id/new_card_view"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_centerHorizontal="true"
@@ -20,7 +20,7 @@
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/company_list_text_view"
+            android:id="@+id/company_text_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="5dp"
@@ -42,7 +42,7 @@
             android:background="@color/colorAccent" />
 
         <TextView
-            android:id="@+id/name_list_text_view"
+            android:id="@+id/name_text_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="7dp"
@@ -56,7 +56,7 @@
             tools:text="Anuraag Baishya" />
 
         <TextView
-            android:id="@+id/position_list_text_view"
+            android:id="@+id/position_text_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
@@ -76,7 +76,7 @@
             android:layout_marginBottom="5dp">
 
             <TextView
-                android:id="@+id/phone_list_text_view"
+                android:id="@+id/phone_text_view"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="start"
@@ -93,7 +93,7 @@
                 tools:text="+919538335985" />
 
             <TextView
-                android:id="@+id/email_list_text_view"
+                android:id="@+id/email_text_view"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="start"
@@ -130,7 +130,7 @@
                 android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/add_line1_list_text_view"
+                    android:id="@+id/add_line1_text_view"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="7dp"
@@ -142,7 +142,7 @@
                     tools:text="A304, Vijayadurga Apartments" />
 
                 <TextView
-                    android:id="@+id/add_line2_list_text_view"
+                    android:id="@+id/add_line2_text_view"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="5dp"

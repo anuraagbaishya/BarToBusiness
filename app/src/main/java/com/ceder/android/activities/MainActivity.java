@@ -1,11 +1,14 @@
 package com.ceder.android.activities;
 
+import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
+import android.app.FragmentManager;
+import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -23,6 +26,7 @@ import com.ceder.android.R;
 import com.ceder.android.adapters.CardAdapter;
 import com.ceder.android.fragments.FilterFragment;
 import com.ceder.android.fragments.HelpFragment;
+import com.ceder.android.fragments.NewCardFragment;
 import com.ceder.android.models.RealmCard;
 import com.ceder.android.utils.CircleTransform;
 import com.google.zxing.integration.android.IntentIntegrator;
@@ -47,7 +51,8 @@ public class MainActivity extends AppCompatActivity implements FilterFragment.On
     ArrayList<RealmCard> realmCards;
     ArrayList<RealmCard> originalCards;
     BottomNavigationView bottomNavigationView;
-
+    Bundle args;
+    private boolean showDialog = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -172,12 +177,26 @@ public class MainActivity extends AppCompatActivity implements FilterFragment.On
             } else {
                 //if qr contains data
                 String key = result.getContents();
-                startActivity(new Intent(getApplicationContext(), NewCardActivity.class).putExtra("Key", key));
-                overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
-                finish();
+                args = new Bundle();
+                args.putString("Key", key);
+                showDialog = true;
+
             }
         } else {
             super.onActivityResult(requestCode, resultCode, data);
+        }
+    }
+
+    @Override
+    protected void onResumeFragments() {
+
+        super.onResumeFragments();
+        if (showDialog) {
+            showDialog = false;
+
+            DialogFragment cardFragment = new NewCardFragment();
+            cardFragment.setArguments(args);
+            cardFragment.show(getSupportFragmentManager(), "New Card Fragment");
         }
     }
 

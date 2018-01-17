@@ -212,9 +212,9 @@ public class AddActivity extends AppCompatActivity {
             } else {
                 //if qr contains data
                 String key = result.getContents();
-                startActivity(new Intent(getApplicationContext(), NewCardActivity.class).putExtra("Key", key));
-                overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
-                finish();
+                //startActivity(new Intent(getApplicationContext(), NewCardActivity.class).putExtra("Key", key));
+                //overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+                //finish();
             }
         } else {
             super.onActivityResult(requestCode, resultCode, data);
