@@ -1,9 +1,12 @@
 package com.ceder.android.models;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.firebase.database.IgnoreExtraProperties;
 
 @IgnoreExtraProperties
-public class Card {
+public class Card implements Parcelable {
 
     private String name;
     private String position;
@@ -15,22 +18,15 @@ public class Card {
     private String addLine3;
     private String linkedin;
 
-    public Card() {
+    public static final Parcelable.Creator CREATOR = new Parcelable.Creator(){
 
-    }
-
-    public Card(String name, String position, String company, String phone, String email, String addLine1, String addLine2, String addLine3, String linkedin) {
-        this.name = name;
-        this.position = position;
-        this.company = company;
-        this.phone = phone;
-        this.email = email;
-        this.addLine1 = addLine1;
-        this.addLine2 = addLine2;
-        this.addLine3 = addLine3;
-        this.linkedin = linkedin;
-
-    }
+        public Card[] newArray(int size){
+            return new Card[size];
+        }
+        public Card createFromParcel(Parcel in){
+            return new Card(in);
+        }
+    };
 
     public String getName() {
         return name;
@@ -102,5 +98,52 @@ public class Card {
 
     public void setAddLine3(String addLine3) {
         this.addLine3 = addLine3;
+    }
+
+    public Card() {
+
+    }
+
+    public Card(String name, String position, String company, String phone, String email, String addLine1, String addLine2, String addLine3, String linkedin) {
+        this.name = name;
+        this.position = position;
+        this.company = company;
+        this.phone = phone;
+        this.email = email;
+        this.addLine1 = addLine1;
+        this.addLine2 = addLine2;
+        this.addLine3 = addLine3;
+        this.linkedin = linkedin;
+
+    }
+
+    public Card(Parcel in) {
+        this.name = in.readString();
+        this.position = in.readString();
+        this.company = in.readString();
+        this.phone = in.readString();
+        this.email = in.readString();
+        this.addLine1 = in.readString();
+        this.addLine2 = in.readString();
+        this.addLine3 = in.readString();
+        this.linkedin = in.readString();
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.name);
+        dest.writeString(this.phone);
+        dest.writeString(this.email);
+        dest.writeString(this.position);
+        dest.writeString(this.addLine1);
+        dest.writeString(this.addLine2);
+        dest.writeString(this.addLine3);
+        dest.writeString(this.linkedin);
+        dest.writeString(this.company);
     }
 }

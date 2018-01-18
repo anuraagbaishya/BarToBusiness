@@ -1,203 +1,209 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/card_list_item"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_centerHorizontal="true"
-    android:layout_marginEnd="5dp"
-    android:layout_marginLeft="5dp"
-    android:layout_marginRight="5dp"
-    android:layout_marginStart="5dp"
-    android:layout_marginTop="3dp"
-    app:cardElevation="1.5dp"
-    app:cardUseCompatPadding="true">
+    android:layout_height="wrap_content">
 
-    <LinearLayout
+    <android.support.v7.widget.CardView
+        android:id="@+id/card_item"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
-
-        <TextView
-            android:id="@+id/company_list_text_view"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="5dp"
-            android:layout_marginEnd="10dp"
-            android:layout_marginRight="5dp"
-            android:layout_marginTop="5dp"
-            android:fontFamily="sans-serif-condensed"
-            android:gravity="end"
-            android:textAllCaps="true"
-            android:textColor="@color/black"
-            android:textSize="15sp"
-            tools:text="Manipal Information Security Team" />
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_gravity="center"
-            android:layout_margin="5dp"
-            android:background="@color/colorAccent" />
-
-        <TextView
-            android:id="@+id/name_list_text_view"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="7dp"
-            android:layout_marginStart="7dp"
-            android:layout_marginTop="10dp"
-            android:fontFamily="sans-serif-condensed"
-            android:gravity="center"
-            android:textAllCaps="true"
-            android:textColor="@color/black"
-            android:textSize="17sp"
-            tools:text="Anuraag Baishya" />
-
-        <TextView
-            android:id="@+id/position_list_text_view"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
-            android:layout_marginLeft="7dp"
-            android:layout_marginStart="7dp"
-            android:layout_marginTop="5dp"
-            android:fontFamily="sans-serif"
-            android:gravity="center"
-            android:textColor="@color/black"
-            android:textSize="15sp"
-            android:textStyle="italic"
-            tools:text="President" />
+        app:cardElevation="1.5dp"
+        app:cardUseCompatPadding="true">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="5dp">
+            android:orientation="vertical">
 
             <TextView
-                android:id="@+id/phone_list_text_view"
-                android:layout_width="0dp"
+                android:id="@+id/company_text_view"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="start"
-                android:layout_marginLeft="2dp"
-                android:layout_marginStart="2dp"
+                android:layout_marginBottom="5dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginRight="5dp"
                 android:layout_marginTop="5dp"
-                android:layout_weight="1.2"
-                android:drawableLeft="@drawable/ic_phone_black_24dp"
-                android:drawablePadding="2dp"
-                android:fontFamily="sans-serif"
-                android:gravity="center|start"
+                android:fontFamily="sans-serif-condensed"
+                android:gravity="end"
+                android:textAllCaps="true"
                 android:textColor="@color/black"
-                android:textSize="13sp"
-                tools:text="+919538335985" />
+                android:textSize="15sp"
+                tools:text="Manipal Information Security Team" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_gravity="center"
+                android:layout_margin="5dp"
+                android:background="@color/colorAccent" />
 
             <TextView
-                android:id="@+id/email_list_text_view"
-                android:layout_width="0dp"
+                android:id="@+id/name_text_view"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="start"
-                android:layout_marginEnd="2dp"
-                android:layout_marginRight="2dp"
-                android:layout_marginTop="5dp"
-                android:layout_weight="2"
-                android:drawablePadding="2dp"
-                android:drawableRight="@drawable/ic_email_black_24dp"
-                android:fontFamily="sans-serif"
-                android:gravity="center|end"
+                android:layout_marginLeft="7dp"
+                android:layout_marginStart="7dp"
+                android:layout_marginTop="10dp"
+                android:fontFamily="sans-serif-condensed"
+                android:gravity="center"
+                android:textAllCaps="true"
                 android:textColor="@color/black"
-                android:textSize="13sp"
-                tools:text="manipalinfosec@gmail.com" />
+                android:textSize="17sp"
+                tools:text="Anuraag Baishya" />
 
-        </LinearLayout>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_gravity="center"
-            android:layout_margin="5dp"
-            android:background="@color/colorAccent" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            <TextView
+                android:id="@+id/position_text_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:layout_marginLeft="7dp"
+                android:layout_marginStart="7dp"
+                android:layout_marginTop="5dp"
+                android:fontFamily="sans-serif"
+                android:gravity="center"
+                android:textColor="@color/black"
+                android:textSize="15sp"
+                android:textStyle="italic"
+                tools:text="President" />
 
             <LinearLayout
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="3"
-                android:orientation="vertical">
+                android:layout_marginBottom="5dp">
 
                 <TextView
-                    android:id="@+id/add_line1_list_text_view"
-                    android:layout_width="match_parent"
+                    android:id="@+id/phone_text_view"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="7dp"
-                    android:layout_marginStart="7dp"
-                    android:layout_marginTop="10dp"
+                    android:layout_gravity="start"
+                    android:layout_marginLeft="2dp"
+                    android:layout_marginStart="2dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_weight="1.2"
+                    android:drawableLeft="@drawable/ic_phone_black_24dp"
+                    android:drawablePadding="2dp"
                     android:fontFamily="sans-serif"
+                    android:gravity="center|start"
                     android:textColor="@color/black"
                     android:textSize="13sp"
-                    tools:text="A304, Vijayadurga Apartments" />
+                    tools:text="+919538335985" />
 
                 <TextView
-                    android:id="@+id/add_line2_list_text_view"
-                    android:layout_width="match_parent"
+                    android:id="@+id/email_text_view"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="5dp"
-                    android:layout_marginLeft="7dp"
-                    android:layout_marginStart="7dp"
+                    android:layout_gravity="start"
+                    android:layout_marginEnd="2dp"
+                    android:layout_marginRight="2dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_weight="2"
+                    android:drawablePadding="2dp"
+                    android:drawableRight="@drawable/ic_email_black_24dp"
                     android:fontFamily="sans-serif"
+                    android:gravity="center|end"
                     android:textColor="@color/black"
                     android:textSize="13sp"
-                    tools:text="Eshwar Nagar, Manipal" />
+                    tools:text="manipalinfosec@gmail.com" />
+
             </LinearLayout>
 
-            <ImageView
-                android:id="@+id/linkedin_image_view"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center|end"
-                android:layout_weight="0.5"
-                android:contentDescription="@string/app_name"
-                android:src="@drawable/ic_linkedin" />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_gravity="center"
+                android:layout_margin="5dp"
+                android:background="@color/colorAccent" />
 
-            <ImageView
-                android:id="@+id/map_image_view"
-                android:layout_width="0dp"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center|end"
-                android:layout_weight="0.5"
-                android:contentDescription="@string/app_name"
-                android:src="@android:drawable/ic_dialog_map"
-                android:tint="@color/black" />
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="3"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/add_line1_text_view"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="7dp"
+                        android:layout_marginStart="7dp"
+                        android:layout_marginTop="10dp"
+                        android:fontFamily="sans-serif"
+                        android:textColor="@color/black"
+                        android:textSize="13sp"
+                        tools:text="A304, Vijayadurga Apartments" />
+
+                    <TextView
+                        android:id="@+id/add_line2_text_view"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="5dp"
+                        android:layout_marginLeft="7dp"
+                        android:layout_marginStart="7dp"
+                        android:fontFamily="sans-serif"
+                        android:textColor="@color/black"
+                        android:textSize="13sp"
+                        tools:text="Eshwar Nagar, Manipal" />
+                </LinearLayout>
+
+                <ImageView
+                    android:id="@+id/linkedin_image_view"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center|end"
+                    android:layout_weight="0.5"
+                    android:contentDescription="@string/app_name"
+                    android:src="@drawable/ic_linkedin" />
+
+                <ImageView
+                    android:id="@+id/map_image_view"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center|end"
+                    android:layout_weight="0.5"
+                    android:contentDescription="@string/app_name"
+                    android:src="@android:drawable/ic_dialog_map"
+                    android:tint="@color/black" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_margin="5dp"
+                android:background="@android:color/darker_gray"
+                />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end">
+
+                <Button
+                    android:id="@+id/view_card_button"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@android:color/transparent"
+                    android:fontFamily="sans-serif-condensed"
+                    android:text="@string/view_cards"
+                    android:textColor="@color/colorAccent" />
+
+                <Button
+                    android:id="@+id/save_card_button"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@android:color/transparent"
+                    android:fontFamily="sans-serif-condensed"
+                    android:text="@string/save"
+                    android:textColor="@color/colorAccent" />
+            </LinearLayout>
         </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="end">
-
-            <Button
-                android:id="@+id/view_card_button"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:background="@android:color/transparent"
-                android:fontFamily="sans-serif-condensed"
-                android:text="@string/view_cards"
-                android:textColor="@color/colorAccent" />
-
-            <Button
-                android:id="@+id/save_card_button"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:background="@android:color/transparent"
-                android:fontFamily="sans-serif-condensed"
-                android:text="@string/save"
-                android:textColor="@color/colorAccent" />
-        </LinearLayout>
-    </LinearLayout>
-</android.support.v7.widget.CardView>
+    </android.support.v7.widget.CardView>
+</LinearLayout>

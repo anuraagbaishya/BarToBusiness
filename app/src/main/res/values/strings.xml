@@ -25,8 +25,7 @@
     <string name="basic">Basic</string>
     <string name="other">Other</string>
     <string name="permission_message">Need permission to call phone</string>
-    <string name="mwlin_text">
-    <![CDATA[Made with <span style="color: #e74c3c">&hearts;</span> in India]]></string>
+    <string name="mwlin_text">Made with \u2665 in India</string>
 
     <!-- Strings related to login -->
     <string name="prompt_email">Email</string>

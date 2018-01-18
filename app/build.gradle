@@ -35,7 +35,6 @@ dependencies {
         compile 'com.squareup.picasso:picasso:2.5.2'
         compile 'de.psdev.licensesdialog:licensesdialog:1.8.1'
         compile 'com.google.android.gms:play-services-maps:11.8.0'
-        compile 'com.google.firebase:firebase-crash:11.8.0'
         compile 'com.github.paolorotolo:appintro:4.1.0'
         compile 'com.android.support:support-v4:26.1.0'
         compile 'com.android.support:recyclerview-v7:26.1.0'

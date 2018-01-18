@@ -11,6 +11,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.annotation.NonNull;
+import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -18,6 +19,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.LinearSnapHelper;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SnapHelper;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
@@ -60,7 +62,7 @@ public class ProfileActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
-        swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_refresh_layout);
+        //swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_refresh_layout);
         noCardTextView = (TextView) findViewById(R.id.no_card_text_view);
         if (Build.VERSION.SDK_INT >= 23) {
             if (ContextCompat.checkSelfPermission(ProfileActivity.this, android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
@@ -73,21 +75,25 @@ public class ProfileActivity extends AppCompatActivity {
             display();
 
         preferences = getSharedPreferences("com.ceder.android", MODE_PRIVATE);
-        TextView nameTextView = (TextView) findViewById(R.id.name_text_view);
-        TextView emailTextView = (TextView) findViewById(R.id.email_text_view);
-        nameTextView.setText(preferences.getString("name", null));
-        emailTextView.setText(preferences.getString("email", null));
+        CollapsingToolbarLayout collapsingToolbarLayout =(CollapsingToolbarLayout)
+                findViewById(R.id.collapsing_toolbar_layout);
+        collapsingToolbarLayout.setExpandedTitleTextAppearance(R.style.collapsingToolbarLayoutTitleColorExpanded);
+        collapsingToolbarLayout.setCollapsedTitleTextAppearance(R.style.collapsingToolbarLayoutTitleColorCollapsed);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar.setTitle(preferences.getString("name", null));
+        toolbar.setSubtitle(preferences.getString("email", null));
+        setSupportActionBar(toolbar);
 
         ImageView profileImageView = (ImageView) findViewById(R.id.profile_image_view);
         String imageURL = "https://graph.facebook.com/" + preferences.getString("userid", null) + "/picture?width=1200";
         Picasso.with(getApplicationContext()).load(imageURL).into(profileImageView);
-        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                GetCardsTask getCardsTask = new GetCardsTask();
-                getCardsTask.execute();
-            }
-        });
+//        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+//            @Override
+//            public void onRefresh() {
+//                GetCardsTask getCardsTask = new GetCardsTask();
+//                getCardsTask.execute();
+//            }
+//        });
 
     }
 
@@ -207,7 +213,7 @@ public class ProfileActivity extends AppCompatActivity {
 
     private void display() {
 
-        swipeRefreshLayout.setRefreshing(false);
+        //swipeRefreshLayout.setRefreshing(false);
         myCards = new ArrayList<>();
         myCards.clear();
         myCards.addAll(getFromSdcard());
@@ -221,7 +227,7 @@ public class ProfileActivity extends AppCompatActivity {
             noCardTextView.setVisibility(View.GONE);
             recyclerView.setVisibility(View.VISIBLE);
         }
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.HORIZONTAL, false);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext());
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setAdapter(myCardAdapter);

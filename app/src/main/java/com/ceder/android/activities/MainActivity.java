@@ -1,5 +1,6 @@
 package com.ceder.android.activities;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
@@ -17,14 +18,22 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.ceder.android.R;
 import com.ceder.android.adapters.CardAdapter;
 import com.ceder.android.fragments.FilterFragment;
 import com.ceder.android.fragments.HelpFragment;
+import com.ceder.android.fragments.NewCardFragment;
+import com.ceder.android.models.Card;
 import com.ceder.android.models.RealmCard;
 import com.ceder.android.utils.CircleTransform;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 import com.squareup.picasso.Picasso;
@@ -47,6 +56,8 @@ public class MainActivity extends AppCompatActivity implements FilterFragment.On
     ArrayList<RealmCard> realmCards;
     ArrayList<RealmCard> originalCards;
     BottomNavigationView bottomNavigationView;
+    Card newCard;
+    ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -115,6 +126,10 @@ public class MainActivity extends AppCompatActivity implements FilterFragment.On
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setAdapter(cardAdapter);
+
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setMessage("Reading Data");
+        progressDialog.setCancelable(false);
     }
 
     @Override
@@ -172,9 +187,32 @@ public class MainActivity extends AppCompatActivity implements FilterFragment.On
             } else {
                 //if qr contains data
                 String key = result.getContents();
-                startActivity(new Intent(getApplicationContext(), NewCardActivity.class).putExtra("Key", key));
-                overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
-                finish();
+                newCard(key, new OnGetDataListener() {
+                    @Override
+                    public void onStart() {
+                        progressDialog.show();
+                        Log.d("Starting", "Starting");
+                    }
+
+                    @Override
+                    public void onSuccess(DataSnapshot dataSnapshot) {
+                        progressDialog.dismiss();
+                        Card newCard = dataSnapshot.getValue(Card.class);
+                        Bundle args = new Bundle();
+                        args.putParcelable("card", newCard);
+                        NewCardFragment newCardFragment = new NewCardFragment();
+                        newCardFragment.setArguments(args);
+                        newCardFragment.show(getSupportFragmentManager(), "new card");
+                    }
+
+                    @Override
+                    public void onFailure() {
+
+                    }
+                });
+                //startActivity(new Intent(getApplicationContext(), NewCardActivity.class).putExtra("Key", key));
+                //overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+                //finish();
             }
         } else {
             super.onActivityResult(requestCode, resultCode, data);
@@ -279,6 +317,39 @@ public class MainActivity extends AppCompatActivity implements FilterFragment.On
     public void onResume(){
         super.onResume();
         bottomNavigationView.setSelectedItemId(R.id.action_view_cards);
+    }
+
+    private interface OnGetDataListener{
+
+        void onStart();
+        void onSuccess(DataSnapshot dataSnapshot);
+        void onFailure();
+    }
+
+    private void newCard(final String key, final OnGetDataListener listener){
+
+        listener.onStart();
+        Log.d("key", key);
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
+        databaseReference.keepSynced(true);
+        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    for (final DataSnapshot postSnapShot : snapshot.getChildren()) {
+                        if (postSnapShot.getKey().equals(key)) {
+                            listener.onSuccess(postSnapShot);
+                        }
+                    }
+                }
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                listener.onFailure();
+                Log.e("DBError", databaseError.toString());
+            }
+        });
     }
 }
 
