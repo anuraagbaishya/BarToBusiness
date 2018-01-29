@@ -18,7 +18,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.ceder.android.R;
@@ -29,11 +28,9 @@ import com.ceder.android.fragments.NewCardFragment;
 import com.ceder.android.models.Card;
 import com.ceder.android.models.RealmCard;
 import com.ceder.android.utils.CircleTransform;
+import com.ceder.android.utils.interfaces.OnGetDataListener;
+import com.ceder.android.utils.Functions;
 import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 import com.squareup.picasso.Picasso;
@@ -56,7 +53,6 @@ public class MainActivity extends AppCompatActivity implements FilterFragment.On
     ArrayList<RealmCard> realmCards;
     ArrayList<RealmCard> originalCards;
     BottomNavigationView bottomNavigationView;
-    Card newCard;
     ProgressDialog progressDialog;
 
     @Override
@@ -187,7 +183,8 @@ public class MainActivity extends AppCompatActivity implements FilterFragment.On
             } else {
                 //if qr contains data
                 String key = result.getContents();
-                newCard(key, new OnGetDataListener() {
+                Functions f = new Functions();
+                f.newCard(key, new OnGetDataListener() {
                     @Override
                     public void onStart() {
                         progressDialog.show();
@@ -210,9 +207,6 @@ public class MainActivity extends AppCompatActivity implements FilterFragment.On
 
                     }
                 });
-                //startActivity(new Intent(getApplicationContext(), NewCardActivity.class).putExtra("Key", key));
-                //overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
-                //finish();
             }
         } else {
             super.onActivityResult(requestCode, resultCode, data);
@@ -317,39 +311,6 @@ public class MainActivity extends AppCompatActivity implements FilterFragment.On
     public void onResume(){
         super.onResume();
         bottomNavigationView.setSelectedItemId(R.id.action_view_cards);
-    }
-
-    private interface OnGetDataListener{
-
-        void onStart();
-        void onSuccess(DataSnapshot dataSnapshot);
-        void onFailure();
-    }
-
-    private void newCard(final String key, final OnGetDataListener listener){
-
-        listener.onStart();
-        Log.d("key", key);
-        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
-        databaseReference.keepSynced(true);
-        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-
-                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                    for (final DataSnapshot postSnapShot : snapshot.getChildren()) {
-                        if (postSnapShot.getKey().equals(key)) {
-                            listener.onSuccess(postSnapShot);
-                        }
-                    }
-                }
-            }
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                listener.onFailure();
-                Log.e("DBError", databaseError.toString());
-            }
-        });
     }
 }
 

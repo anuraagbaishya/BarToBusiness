@@ -30,11 +30,15 @@ import android.widget.ScrollView;
 import android.widget.Toast;
 
 import com.ceder.android.R;
+import com.ceder.android.fragments.NewCardFragment;
 import com.ceder.android.fragments.QRFragment;
 import com.ceder.android.models.Card;
 import com.ceder.android.utils.CircleTransform;
+import com.ceder.android.utils.Functions;
+import com.ceder.android.utils.interfaces.OnGetDataListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
@@ -212,9 +216,30 @@ public class AddActivity extends AppCompatActivity {
             } else {
                 //if qr contains data
                 String key = result.getContents();
-                startActivity(new Intent(getApplicationContext(), NewCardActivity.class).putExtra("Key", key));
-                overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
-                finish();
+                Functions f = new Functions();
+                f.newCard(key, new OnGetDataListener() {
+                    @Override
+                    public void onStart() {
+                        progressDialog.show();
+                        Log.d("Starting", "Starting");
+                    }
+
+                    @Override
+                    public void onSuccess(DataSnapshot dataSnapshot) {
+                        progressDialog.dismiss();
+                        Card newCard = dataSnapshot.getValue(Card.class);
+                        Bundle args = new Bundle();
+                        args.putParcelable("card", newCard);
+                        NewCardFragment newCardFragment = new NewCardFragment();
+                        newCardFragment.setArguments(args);
+                        newCardFragment.show(getSupportFragmentManager(), "new card");
+                    }
+
+                    @Override
+                    public void onFailure() {
+
+                    }
+                });
             }
         } else {
             super.onActivityResult(requestCode, resultCode, data);

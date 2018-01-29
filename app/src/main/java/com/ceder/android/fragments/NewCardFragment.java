@@ -39,7 +39,7 @@ public class NewCardFragment extends DialogFragment {
         TextView emailTextView = (TextView) rootView.findViewById(R.id.email_text_view);
         TextView addLine1TextView = (TextView) rootView.findViewById(R.id.add_line1_text_view);
         TextView addLine2TextView = (TextView) rootView.findViewById(R.id.add_line2_text_view);
-        CardView cardView = (CardView) rootView.findViewById(R.id.new_card_view);
+        CardView cardView = (CardView) rootView.findViewById(R.id.new_card_item);
         Button saveCardButton = (Button) rootView.findViewById(R.id.save_card_button);
         Button viewCardsButton = (Button) rootView.findViewById(R.id.view_card_button);
 
