@@ -77,8 +77,8 @@ public class ProfileActivity extends AppCompatActivity {
         preferences = getSharedPreferences("com.ceder.android", MODE_PRIVATE);
         CollapsingToolbarLayout collapsingToolbarLayout =(CollapsingToolbarLayout)
                 findViewById(R.id.collapsing_toolbar_layout);
-        collapsingToolbarLayout.setExpandedTitleTextAppearance(R.style.collapsingToolbarLayoutTitleColorExpanded);
-        collapsingToolbarLayout.setCollapsedTitleTextAppearance(R.style.collapsingToolbarLayoutTitleColorCollapsed);
+        collapsingToolbarLayout.setExpandedTitleColor(getResources().getColor(android.R.color.transparent));
+        collapsingToolbarLayout.setCollapsedTitleTextColor(getResources().getColor(R.color.colorAccent));
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle(preferences.getString("name", null));
         toolbar.setSubtitle(preferences.getString("email", null));
